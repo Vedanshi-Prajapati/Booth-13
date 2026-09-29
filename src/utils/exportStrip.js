@@ -2,20 +2,34 @@ import { PHOTOS_DATA } from '../data/boothData';
 
 export async function downloadPhotoStrip(customization) {
   const canvas = document.createElement('canvas');
-  const width = 640;
-  const height = 1920;
+
+  // Tight layout dimensions: no negative dead space or awkward margins
+  const width = 600;
+  const paddingX = 16;
+  const frameWidth = width - paddingX * 2; // 568px
+  const frameHeight = Math.round(frameWidth * 0.85); // 483px (snug photobooth frame)
+  const frameGap = 12;
+  const topPadding = 16;
+
+  const totalFramesHeight = 4 * frameHeight + 3 * frameGap;
+  const footerPaddingTop = 14;
+  const footerContentHeight = 100;
+  const bottomPadding = 16;
+
+  // Exact height computed to match content precisely: zero trailing whitespace
+  const height = topPadding + totalFramesHeight + footerPaddingTop + footerContentHeight + bottomPadding;
   canvas.width = width;
   canvas.height = height;
   const ctx = canvas.getContext('2d');
 
   // Background aged dark paper
-  ctx.fillStyle = '#181512';
+  ctx.fillStyle = '#141210';
   ctx.fillRect(0, 0, width, height);
 
   // Subtle outer paper border
-  ctx.strokeStyle = '#3d342c';
-  ctx.lineWidth = 4;
-  ctx.strokeRect(12, 12, width - 24, height - 24);
+  ctx.strokeStyle = 'rgba(228, 213, 183, 0.28)';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(6, 6, width - 12, height - 12);
 
   // Custom face selection
   let photo1 = PHOTOS_DATA[0].image;
@@ -43,37 +57,52 @@ export async function downloadPhotoStrip(customization) {
 
   const loadedImages = await Promise.all(imageSrcs.map(loadImage));
 
-  // Layout parameters for the 4 frames
-  const frameMarginX = 36;
-  const frameWidth = width - frameMarginX * 2; // 568px
-  const frameHeight = 365;
-  const frameGap = 24;
-  const topOffset = 36;
+  // Helper to draw image covering frame completely (no letterbox bars or negative space)
+  const drawImageCover = (img, dx, dy, dWidth, dHeight) => {
+    const sWidth = img.naturalWidth || img.width;
+    const sHeight = img.naturalHeight || img.height;
+    const imgRatio = sWidth / sHeight;
+    const targetRatio = dWidth / dHeight;
+    let sx = 0;
+    let sy = 0;
+    let cropWidth = sWidth;
+    let cropHeight = sHeight;
+
+    if (imgRatio > targetRatio) {
+      cropWidth = sHeight * targetRatio;
+      sx = (sWidth - cropWidth) / 2;
+    } else {
+      cropHeight = sWidth / targetRatio;
+      sy = (sHeight - cropHeight) / 2;
+    }
+
+    ctx.drawImage(img, sx, sy, cropWidth, cropHeight, dx, dy, dWidth, dHeight);
+  };
 
   loadedImages.forEach((img, i) => {
-    const y = topOffset + i * (frameHeight + frameGap);
+    const y = topPadding + i * (frameHeight + frameGap);
 
-    // Frame border
-    ctx.fillStyle = '#0a0908';
-    ctx.fillRect(frameMarginX - 4, y - 4, frameWidth + 8, frameHeight + 8);
+    // Frame backdrop
+    ctx.fillStyle = '#08080a';
+    ctx.fillRect(paddingX, y, frameWidth, frameHeight);
 
     if (img) {
-      // Draw image cropped to frame aspect ratio
-      ctx.drawImage(img, frameMarginX, y, frameWidth, frameHeight);
+      // Draw image edge-to-edge covering frame completely
+      drawImageCover(img, paddingX, y, frameWidth, frameHeight);
 
       // Custom background atmosphere color wash
       if (customization?.background === 'curtains') {
         ctx.fillStyle = 'rgba(70, 10, 15, 0.22)';
-        ctx.fillRect(frameMarginX, y, frameWidth, frameHeight);
+        ctx.fillRect(paddingX, y, frameWidth, frameHeight);
       } else if (customization?.background === 'graveyard') {
         ctx.fillStyle = 'rgba(15, 35, 30, 0.25)';
-        ctx.fillRect(frameMarginX, y, frameWidth, frameHeight);
+        ctx.fillRect(paddingX, y, frameWidth, frameHeight);
       } else if (customization?.background === 'forest') {
         ctx.fillStyle = 'rgba(10, 25, 15, 0.25)';
-        ctx.fillRect(frameMarginX, y, frameWidth, frameHeight);
+        ctx.fillRect(paddingX, y, frameWidth, frameHeight);
       } else if (customization?.background === 'manor') {
         ctx.fillStyle = 'rgba(30, 20, 35, 0.22)';
-        ctx.fillRect(frameMarginX, y, frameWidth, frameHeight);
+        ctx.fillRect(paddingX, y, frameWidth, frameHeight);
       }
 
       // Vignette effect over photo
@@ -82,34 +111,39 @@ export async function downloadPhotoStrip(customization) {
         width / 2, y + frameHeight / 2, frameWidth * 0.75
       );
       grad.addColorStop(0, 'rgba(0,0,0,0)');
-      grad.addColorStop(1, 'rgba(10,5,5,0.45)');
+      grad.addColorStop(1, 'rgba(5, 5, 8, 0.55)');
       ctx.fillStyle = grad;
-      ctx.fillRect(frameMarginX, y, frameWidth, frameHeight);
+      ctx.fillRect(paddingX, y, frameWidth, frameHeight);
     }
+
+    // Crisp inner frame line
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.6)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(paddingX, y, frameWidth, frameHeight);
   });
 
-  // Footer Branding
-  const footerY = topOffset + 4 * (frameHeight + frameGap) + 12;
+  // Footer Branding: snug and perfectly centered without extra negative space
+  const footerY = topPadding + totalFramesHeight + footerPaddingTop;
 
   ctx.textAlign = 'center';
   ctx.fillStyle = '#ffb347';
   ctx.font = '24px "Alfa Slab One", cursive, serif';
-  ctx.fillText('BOOTH 13', width / 2, footerY + 28);
+  ctx.fillText('BOOTH 13', width / 2, footerY + 24);
 
-  ctx.fillStyle = '#e4d5b7';
-  ctx.font = '14px "Special Elite", monospace';
+  ctx.fillStyle = '#a8a095';
+  ctx.font = '13px "Special Elite", monospace';
   const today = new Date();
   const dateFormatted = `${today.getDate().toString().padStart(2, '0')} · ${(today.getMonth() + 1).toString().padStart(2, '0')} · ${today.getFullYear()}`;
-  ctx.fillText(`STRIP NO. 0013 · ${dateFormatted}`, width / 2, footerY + 60);
+  ctx.fillText(`STRIP NO. 0013 · ${dateFormatted}`, width / 2, footerY + 50);
 
   ctx.fillStyle = '#cf7980';
-  ctx.font = 'italic 32px "Caveat", cursive, Georgia';
-  ctx.fillText('“You brought a friend.”', width / 2, footerY + 104);
+  ctx.font = 'italic 30px "Caveat", cursive, Georgia';
+  ctx.fillText('“You brought a friend.”', width / 2, footerY + 86);
 
   // Trigger download
   const dataUrl = canvas.toDataURL('image/png');
   const link = document.createElement('a');
-  link.download = `booth-13-strip-0013.png`;
+  link.download = 'booth-13-strip-0013.png';
   link.href = dataUrl;
   link.click();
 }
