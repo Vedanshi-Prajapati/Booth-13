@@ -1,0 +1,96 @@
+/**
+ * Registry of the 13 Secrets in BOOTH 13
+ */
+export const SECRETS_LIST = [
+  {
+    id: 'poster',
+    number: 1,
+    name: 'The Missing',
+    hint: 'Examine the street wall outside the booth.',
+    lore: 'Missing-person poster inspected. "Last seen: inside."',
+  },
+  {
+    id: 'bin',
+    number: 2,
+    name: 'The Scavenger',
+    hint: 'Something lurks in the metal bin by the corner.',
+    lore: 'The eyes in the bin blinked and vanished. "Don\'t feed it."',
+  },
+  {
+    id: 'moth',
+    number: 3,
+    name: 'The Light Seeker',
+    hint: 'Watch what flutters near the neon glow.',
+    lore: 'The moth was coaxed near the bulb. "It only comes out for the light."',
+  },
+  {
+    id: 'coin13',
+    number: 4,
+    name: 'Thirteen Cents',
+    hint: 'Feed the slot until the gears give way.',
+    lore: 'Coin slot fed 13 times. An extra strip slipped through the tray.',
+  },
+  {
+    id: 'shot4_curtain',
+    number: 5,
+    name: 'Curtain Call',
+    hint: 'Witness the final shot before the red drape.',
+    lore: 'The red curtain parted into darkness. Nothing remained inside.',
+  },
+  {
+    id: 'shot4_wallpaper',
+    number: 6,
+    name: 'Pattern Recognition',
+    hint: 'Find the hollow silhouette in the parlor pattern.',
+    lore: 'The wallpaper pattern left a human-shaped gap on the wall.',
+  },
+  {
+    id: 'shot4_graveyard',
+    number: 7,
+    name: 'The Vigil',
+    hint: 'Stand by the graveyard fence until the visitor arrives.',
+    lore: 'The figure reached the foreground. Your space was empty.',
+  },
+  {
+    id: 'shot4_hallway',
+    number: 8,
+    name: 'The Open Threshold',
+    hint: 'Look through the corridor when the fourth flash fires.',
+    lore: 'The door at the end of the hallway opened completely. The light was on.',
+  },
+  {
+    id: 'wall_visited',
+    number: 9,
+    name: 'The Gallery of Souls',
+    hint: 'Inspect where old photographs go to rest.',
+    lore: 'You found the brick wall of past occupants.',
+  },
+  {
+    id: 'wall_anomaly',
+    number: 10,
+    name: 'The Anomalous Strip',
+    hint: 'Look closely at the pinned strips for something that shifted.',
+    lore: 'You found the strip with the extra figure watching from the edge.',
+  },
+  {
+    id: 'returning_visit',
+    number: 11,
+    name: 'The Return',
+    hint: 'Step into Booth 13 for a second sitting.',
+    lore: 'You crossed the threshold again. The sign flickered "WELCOME BACK".',
+  },
+  {
+    id: 'inactivity_hint',
+    number: 12,
+    name: 'Night Owl',
+    hint: 'Linger quietly in the street until the shadows speak.',
+    lore: 'You waited in the silence until the street gave up its whisper.',
+  },
+  {
+    id: 'secret_fifth_photo',
+    number: 13,
+    name: 'The Revelation',
+    hint: 'Gather 5 secrets to unlock the forbidden frame.',
+    lore: 'The fifth photo revealed itself. "It was never behind you."',
+  },
+];

@@ -1,0 +1,201 @@
+.dev-panel {
+  background: rgba(14, 18, 36, 0.95);
+  border: 1px solid rgba(255, 179, 71, 0.25);
+  border-radius: 6px;
+  padding: 16px 20px;
+  max-width: 520px;
+  width: 100%;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+  font-family: var(--font-ui);
+}
+
+.dev-panel-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.dev-badge {
+  background: var(--color-oxblood);
+  color: var(--color-paper);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.dev-title {
+  color: var(--color-paper);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+}
+
+.dev-section-group {
+  margin-bottom: 14px;
+}
+
+.section-label {
+  display: block;
+  color: rgba(242, 232, 213, 0.6);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 6px;
+}
+
+/* Backdrop Buttons Grid */
+.backdrop-buttons-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.dev-bd-btn {
+  background: #15192c;
+  color: var(--color-paper);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.dev-bd-btn:hover {
+  background: #202642;
+  border-color: var(--color-amber);
+}
+
+.dev-bd-btn.active {
+  background: var(--color-oxblood);
+  border-color: var(--color-amber);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(255, 179, 71, 0.3);
+}
+
+/* Shot Buttons */
+.dev-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.dev-shot-btn {
+  background: #181D33;
+  color: var(--color-paper);
+  border: 1px solid rgba(242, 232, 213, 0.15);
+  border-radius: 4px;
+  padding: 10px 6px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.dev-shot-btn:hover {
+  background: #232A4A;
+  border-color: var(--color-amber);
+}
+
+.dev-shot-btn.active {
+  background: var(--color-oxblood);
+  border-color: var(--color-amber);
+  box-shadow: 0 0 12px rgba(255, 179, 71, 0.35);
+  transform: translateY(-2px);
+}
+
+.btn-shot-num {
+  font-family: var(--font-sign);
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+.btn-shot-desc {
+  font-size: 10px;
+  opacity: 0.8;
+  white-space: nowrap;
+}
+
+/* Discovery Tools */
+.discovery-tools {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 10px;
+  margin-bottom: 0;
+}
+
+.dev-actions-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.dev-toggle-btn {
+  flex: 1;
+  background: #181d30;
+  color: var(--color-paper);
+  border: 1px solid rgba(255, 179, 71, 0.3);
+  border-radius: 4px;
+  padding: 7px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.dev-toggle-btn:hover {
+  background: #222942;
+  border-color: var(--color-amber);
+}
+
+.dev-toggle-btn.toggle-on {
+  background: rgba(143, 209, 138, 0.15);
+  border-color: var(--color-ghost-green);
+  color: var(--color-ghost-green);
+}
+
+.dev-toggle-btn.view-fifth {
+  background: rgba(107, 26, 31, 0.3);
+  border-color: var(--color-oxblood);
+}
+
+.dev-toggle-btn.view-fifth:hover {
+  background: var(--color-oxblood);
+}
+
+.dev-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: #8c95b3;
+}
+
+.dev-reset-btn {
+  background: none;
+  border: none;
+  color: #7b84a3;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 11px;
+}
+
+.dev-reset-btn:hover {
+  color: var(--color-amber);
+}
+
+@media (max-width: 500px) {
+  .dev-buttons {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .backdrop-buttons-grid {
+    grid-template-columns: 1fr;
+  }
+}

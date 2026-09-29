@@ -1,0 +1,194 @@
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 960px;
+  padding: 12px 16px;
+  background: rgba(14, 18, 36, 0.9);
+  border-bottom: 1px solid rgba(255, 179, 71, 0.2);
+  margin-bottom: 20px;
+  border-radius: 4px;
+}
+
+.topbar-nav {
+  display: flex;
+  gap: 8px;
+}
+
+.topbar-nav-btn {
+  background: transparent;
+  color: #9ea7c2;
+  border: 1px solid rgba(242, 232, 213, 0.15);
+  border-radius: 3px;
+  padding: 6px 14px;
+  font-family: var(--font-sign);
+  font-size: 13px;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.topbar-nav-btn:hover {
+  color: var(--color-paper);
+  border-color: var(--color-amber);
+}
+
+.topbar-nav-btn.active {
+  background: var(--color-oxblood);
+  color: var(--color-paper);
+  border-color: var(--color-amber);
+  box-shadow: 0 0 10px rgba(255, 179, 71, 0.25);
+}
+
+.topbar-center {
+  display: flex;
+  align-items: center;
+}
+
+.returning-banner {
+  font-family: var(--font-sign);
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  color: var(--color-amber);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-shadow: 0 0 8px rgba(255, 179, 71, 0.5);
+}
+
+.flicker-bulb {
+  color: var(--color-amber);
+  font-size: 14px;
+  animation: bulb-flicker 2.8s infinite ease-in-out;
+}
+
+@keyframes bulb-flicker {
+  0%, 100% { opacity: 1; text-shadow: 0 0 8px #FFB347; }
+  18% { opacity: 0.2; text-shadow: none; }
+  22% { opacity: 1; text-shadow: 0 0 10px #FFB347; }
+  68% { opacity: 0.35; text-shadow: none; }
+  72% { opacity: 1; text-shadow: 0 0 8px #FFB347; }
+  85% { opacity: 0.85; }
+}
+
+.booth-status-idle {
+  font-family: var(--font-caption);
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: #79829e;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+}
+
+/* Secrets Tally Button */
+.secrets-tally-btn {
+  position: relative;
+  background: #181d30;
+  color: var(--color-paper);
+  border: 1px dashed rgba(255, 179, 71, 0.4);
+  border-radius: 4px;
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-family: var(--font-caption);
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+
+.secrets-tally-btn:hover {
+  background: #232840;
+  border-color: var(--color-amber);
+  box-shadow: 0 0 10px rgba(255, 179, 71, 0.2);
+}
+
+.ticket-icon {
+  font-size: 14px;
+}
+
+.tally-text {
+  letter-spacing: 0.5px;
+}
+
+/* Stamp Animation */
+.secrets-tally-btn.stamped {
+  animation: stamp-punch 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+@keyframes stamp-punch {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.18) rotate(-3deg); border-color: var(--color-amber); background: var(--color-oxblood); }
+  100% { transform: scale(1) rotate(0); }
+}
+
+.stamp-overlay {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--color-amber);
+  color: var(--color-midnight);
+  font-weight: bold;
+  font-size: 10px;
+  padding: 1px 4px;
+  border-radius: 2px;
+  animation: stamp-pop 0.6s ease-out forwards;
+}
+
+@keyframes stamp-pop {
+  0% { transform: scale(0.5); opacity: 0; }
+  50% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+/* Secret Found Toast Notification */
+.secret-found-toast {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  background: var(--color-paper);
+  color: var(--color-midnight);
+  border-left: 5px solid var(--color-oxblood);
+  padding: 12px 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  z-index: 1200;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  transform: rotate(-1deg);
+  animation: toast-stamp-in 0.35s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+@keyframes toast-stamp-in {
+  0% { transform: translateY(-30px) scale(0.8) rotate(-4deg); opacity: 0; }
+  100% { transform: translateY(0) scale(1) rotate(-1deg); opacity: 1; }
+}
+
+.toast-stamp-mark {
+  font-family: var(--font-sign);
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--color-oxblood);
+  text-transform: uppercase;
+}
+
+.toast-content {
+  font-family: var(--font-caption);
+  font-size: 14px;
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+}
+
+.toast-tag {
+  color: #55504a;
+}
+
+.toast-name {
+  color: var(--color-midnight);
+  font-weight: bold;
+}

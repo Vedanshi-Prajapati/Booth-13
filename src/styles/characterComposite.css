@@ -1,0 +1,694 @@
+/* Character Composite Layered Visuals & Animations */
+
+.character-composite-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 4 / 5;
+  background-color: #0c0e14;
+  overflow: hidden;
+  border-radius: 4px;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.9);
+}
+
+/* 1. Backgrounds */
+.composite-bg-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  transition: all 0.4s ease;
+}
+
+/* Curtains */
+.bg-curtains {
+  background: radial-gradient(ellipse at 50% 20%, #4a1015 0%, #1f0709 70%, #0c0203 100%);
+}
+.bg-decor-curtains {
+  position: absolute;
+  inset: 0;
+  display: flex;
+}
+.curtain-fold {
+  flex: 1;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(0,0,0,0.4) 0%, rgba(255,255,255,0.08) 50%, rgba(0,0,0,0.5) 100%);
+}
+
+/* Graveyard */
+.bg-graveyard {
+  background: radial-gradient(ellipse at 75% 20%, #1e2d38 0%, #0d151c 60%, #05080b 100%);
+}
+.bg-decor-graveyard {
+  position: absolute;
+  inset: 0;
+}
+.cemetery-moon {
+  position: absolute;
+  top: 14%;
+  right: 18%;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #f5ebd5 0%, #c4b99f 70%, transparent 100%);
+  box-shadow: 0 0 25px rgba(245, 235, 213, 0.4);
+}
+.cemetery-tombstones {
+  position: absolute;
+  bottom: 12%;
+  left: 10%;
+  width: 24px;
+  height: 38px;
+  border-radius: 12px 12px 0 0;
+  background: #090e13;
+  box-shadow: 45px 5px 0 2px #070b0e, 180px 10px 0 6px #06090c;
+}
+.cemetery-iron-fence {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 25%;
+  background-image: repeating-linear-gradient(90deg, #05070a 0, #05070a 3px, transparent 3px, transparent 20px);
+  border-top: 2px solid #05070a;
+}
+.cemetery-fog {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 40%;
+  background: linear-gradient(180deg, transparent 0%, rgba(143, 209, 138, 0.12) 60%, rgba(13, 21, 28, 0.8) 100%);
+}
+
+/* Manor */
+.bg-manor {
+  background: radial-gradient(ellipse at 50% 50%, #2b231f 0%, #171210 70%, #080605 100%);
+}
+.manor-wallpaper-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(#4d3d32 1px, transparent 1px);
+  background-size: 16px 16px;
+  opacity: 0.25;
+}
+.manor-arch-shadow {
+  position: absolute;
+  inset: 0;
+  border: 18px solid rgba(8, 6, 5, 0.7);
+  border-bottom: none;
+  border-radius: 50% 50% 0 0 / 25% 25% 0 0;
+}
+.manor-candle-sconce {
+  position: absolute;
+  top: 35%;
+  width: 6px;
+  height: 14px;
+  background: #c49544;
+  box-shadow: 0 0 16px rgba(255, 179, 71, 0.5);
+}
+.manor-candle-sconce.left { left: 12%; }
+.manor-candle-sconce.right { right: 12%; }
+
+/* Forest */
+.bg-forest {
+  background: radial-gradient(ellipse at 50% 25%, #18261e 0%, #0a130e 65%, #030604 100%);
+}
+.forest-moonbeam {
+  position: absolute;
+  top: 0;
+  left: 30%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(135deg, rgba(143, 209, 138, 0.15) 0%, transparent 70%);
+}
+.forest-branches-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 35%;
+  height: 45%;
+  background: radial-gradient(circle at 0% 0%, #030604 60%, transparent 62%);
+  clip-path: polygon(0 0, 100% 0, 70% 40%, 90% 70%, 40% 60%, 20% 100%, 0 100%);
+}
+.forest-branches-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 35%;
+  height: 45%;
+  background: radial-gradient(circle at 100% 0%, #030604 60%, transparent 62%);
+  clip-path: polygon(100% 0, 0 0, 30% 40%, 10% 70%, 60% 60%, 80% 100%, 100% 100%);
+}
+
+/* 2. Base Character Portrait */
+.composite-portrait-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.composite-base-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform 0.3s ease;
+}
+
+/* 3. Layered Outfits */
+.composite-outfit-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+.outfit-asset {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 38%;
+}
+
+/* Robe */
+.robe-cowl {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 90%;
+  background: linear-gradient(180deg, rgba(10, 12, 18, 0.92) 0%, #05060a 100%);
+  clip-path: polygon(12% 100%, 22% 35%, 35% 15%, 50% 30%, 65% 15%, 78% 35%, 88% 100%);
+  box-shadow: 0 -4px 15px rgba(0,0,0,0.8);
+}
+.robe-talisman {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid #b5bac9;
+  background: radial-gradient(circle, #521a22 0%, #151824 80%);
+  box-shadow: 0 0 10px rgba(181, 186, 201, 0.5);
+}
+
+/* Corset */
+.corset-neckline {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 85%;
+  background: linear-gradient(180deg, #1f1418 0%, #0d080a 100%);
+  clip-path: polygon(15% 100%, 26% 40%, 50% 65%, 74% 40%, 85% 100%);
+  border-top: 2px solid #6b1a1f;
+}
+.corset-choker {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 8px;
+  background: #090608;
+  border: 1px solid #6b1a1f;
+  border-radius: 2px;
+}
+
+/* Sheet */
+.sheet-drape {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 95%;
+  background: linear-gradient(180deg, rgba(230, 222, 205, 0.85) 0%, rgba(170, 160, 145, 0.95) 100%);
+  clip-path: polygon(8% 100%, 18% 20%, 35% 30%, 50% 10%, 65% 30%, 82% 20%, 92% 100%);
+  mix-blend-mode: hard-light;
+}
+
+/* Gown */
+.gown-velvet-collar {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 90%;
+  background: linear-gradient(180deg, #591016 0%, #290609 100%);
+  clip-path: polygon(10% 100%, 20% 25%, 35% 50%, 50% 20%, 65% 50%, 80% 25%, 90% 100%);
+  box-shadow: 0 -4px 15px rgba(107, 26, 31, 0.5);
+}
+.gown-filigree-trim {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: #ffb347;
+  box-shadow: 0 0 6px #ffb347;
+}
+
+/* 4. Layered Headwear */
+.composite-head-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Witch Hat */
+.witch-hat-overlay {
+  position: absolute;
+  top: -2%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 220px;
+  height: 150px;
+  animation: hat-hover 3s infinite ease-in-out;
+}
+.hat-cone {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 55px solid transparent;
+  border-right: 35px solid transparent;
+  border-bottom: 110px solid #141620;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.8));
+}
+.hat-brim {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%) rotate(-3deg);
+  width: 210px;
+  height: 24px;
+  background: radial-gradient(ellipse, #1c202d 0%, #0d0f16 100%);
+  border-radius: 50%;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.8);
+}
+.hat-buckle {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 14px;
+  border: 3px solid #ffb347;
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(255, 179, 71, 0.6);
+}
+
+/* Demon Horns */
+.demon-horns-overlay {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 90px;
+}
+.horn-left, .horn-right {
+  position: absolute;
+  width: 28px;
+  height: 75px;
+  background: linear-gradient(180deg, #d72638 0%, #450c12 50%, #150507 100%);
+  border-radius: 20px 0 0 20px;
+  box-shadow: 0 0 14px rgba(215, 38, 56, 0.6);
+  animation: horn-glow 2.5s infinite alternate ease-in-out;
+}
+.horn-left {
+  left: 18px;
+  transform: rotate(-35deg);
+  border-radius: 30px 0 0 10px;
+}
+.horn-right {
+  right: 18px;
+  transform: rotate(35deg) scaleX(-1);
+  border-radius: 30px 0 0 10px;
+}
+@keyframes horn-glow {
+  0% { filter: drop-shadow(0 0 6px rgba(215, 38, 56, 0.4)); }
+  100% { filter: drop-shadow(0 0 16px rgba(215, 38, 56, 0.9)); }
+}
+
+/* Top Hat */
+.top-hat-overlay {
+  position: absolute;
+  top: 1%;
+  left: 50%;
+  transform: translateX(-50%) rotate(2deg);
+  width: 170px;
+  height: 120px;
+}
+.tophat-cylinder {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95px;
+  height: 85px;
+  background: linear-gradient(90deg, #0f121a 0%, #252b3d 45%, #10131c 100%);
+  border-radius: 4px 4px 0 0;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+}
+.tophat-band {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95px;
+  height: 14px;
+  background: #6b1a1f;
+  border-top: 1px solid #ffb347;
+  border-bottom: 1px solid #ffb347;
+}
+.tophat-brim {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 155px;
+  height: 16px;
+  background: #0f121a;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.7);
+}
+
+/* Mourning Veil */
+.veil-overlay {
+  position: absolute;
+  top: 8%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 190px;
+  height: 220px;
+}
+.veil-tiara {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 14px;
+  background: #111420;
+  border-top: 3px solid #ffb347;
+  border-radius: 50% 50% 0 0;
+  box-shadow: 0 0 10px rgba(255, 179, 71, 0.4);
+}
+.veil-lace-mesh {
+  position: absolute;
+  top: 25px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 190px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(15, 18, 28, 0.65) 0%, rgba(8, 10, 16, 0.85) 100%);
+  background-image: radial-gradient(#2d364f 1px, transparent 1px);
+  background-size: 8px 8px;
+  border-radius: 12px 12px 60px 60px;
+  mix-blend-mode: multiply;
+  opacity: 0.85;
+}
+
+/* 5. Layered Props */
+.composite-prop-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+}
+.prop-asset {
+  position: absolute;
+}
+
+/* Candle */
+.candle-overlay {
+  bottom: 8%;
+  left: 12%;
+  width: 60px;
+  height: 120px;
+}
+.candle-holder {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 14px;
+  background: linear-gradient(90deg, #876024 0%, #e0aa48 50%, #73501a 100%);
+  border-radius: 4px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+}
+.candle-stem {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 22px;
+  height: 70px;
+  background: linear-gradient(90deg, #d4caa8 0%, #fbf3dc 60%, #beb494 100%);
+  border-radius: 2px 2px 0 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+}
+.candle-flame-glow {
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 179, 71, 0.6) 0%, rgba(215, 38, 56, 0.2) 50%, transparent 75%);
+  animation: flame-pulse 1.8s infinite alternate ease-in-out;
+}
+.candle-flame {
+  position: absolute;
+  top: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 26px;
+  background: radial-gradient(ellipse at 50% 80%, #fff 0%, #ffb347 50%, #d72638 100%);
+  border-radius: 50% 50% 20% 20% / 60% 60% 40% 40%;
+  box-shadow: 0 0 15px #ffb347;
+  animation: flicker 0.15s infinite alternate ease-in-out;
+}
+@keyframes flicker {
+  0% { transform: translateX(-50%) rotate(-2deg) scale(0.95, 1.05); }
+  100% { transform: translateX(-50%) rotate(2deg) scale(1.05, 0.95); }
+}
+@keyframes flame-pulse {
+  0% { opacity: 0.7; transform: translateX(-50%) scale(0.9); }
+  100% { opacity: 1; transform: translateX(-50%) scale(1.15); }
+}
+
+/* Dagger */
+.dagger-overlay {
+  bottom: 5%;
+  right: 10%;
+  width: 90px;
+  height: 140px;
+}
+.dagger-blade {
+  position: absolute;
+  top: 10px;
+  left: 30px;
+  width: 16px;
+  height: 85px;
+  background: linear-gradient(90deg, #9ca3af 0%, #f3f4f6 50%, #6b7280 100%);
+  clip-path: polygon(50% 0%, 100% 25%, 85% 100%, 15% 100%, 0% 25%);
+  transform: rotate(-25deg);
+  box-shadow: 0 0 10px rgba(255,255,255,0.4);
+}
+.dagger-hilt {
+  position: absolute;
+  bottom: 15px;
+  left: 48px;
+  width: 38px;
+  height: 10px;
+  background: #c49544;
+  border-radius: 3px;
+  transform: rotate(-25deg);
+}
+
+/* Pumpkin */
+.pumpkin-overlay {
+  bottom: 4%;
+  right: 8%;
+  width: 95px;
+  height: 85px;
+  animation: pumpkin-glow 2.5s infinite alternate ease-in-out;
+}
+.pumpkin-body {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 80%;
+  background: radial-gradient(ellipse at 40% 40%, #ff8a14 0%, #cf5704 65%, #6e2702 100%);
+  border-radius: 40% 40% 45% 45%;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+}
+.pumpkin-stem {
+  position: absolute;
+  top: 4px;
+  left: 45%;
+  width: 12px;
+  height: 18px;
+  background: #3f5a36;
+  border-radius: 3px;
+  transform: rotate(-10deg);
+}
+.pumpkin-eyes {
+  position: absolute;
+  top: 35%;
+  left: 20%;
+  width: 60%;
+  height: 16px;
+  background-image: radial-gradient(circle, #ffe685 0%, #ff9800 70%);
+  clip-path: polygon(10% 80%, 25% 10%, 40% 80%, 60% 80%, 75% 10%, 90% 80%);
+  box-shadow: 0 0 12px #ffb347;
+}
+.pumpkin-mouth {
+  position: absolute;
+  bottom: 22%;
+  left: 22%;
+  width: 56%;
+  height: 18px;
+  background: radial-gradient(ellipse at 50% 50%, #fff 0%, #ffb347 60%, #b34100 100%);
+  clip-path: polygon(0 40%, 20% 80%, 35% 40%, 50% 90%, 65% 40%, 80% 80%, 100% 40%, 85% 100%, 15% 100%);
+  box-shadow: 0 0 10px #ffb347;
+}
+
+/* Wilted Roses */
+.roses-overlay {
+  bottom: 6%;
+  left: 10%;
+  width: 80px;
+  height: 110px;
+}
+.rose-bloom {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  background: radial-gradient(circle, #6b1a1f 0%, #2e080b 80%);
+  border-radius: 50% 50% 40% 40%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.7);
+}
+.rose-bloom.r1 { top: 15px; left: 15px; transform: rotate(-15deg); }
+.rose-bloom.r2 { top: 30px; left: 35px; transform: rotate(20deg); }
+.rose-stems {
+  position: absolute;
+  bottom: 0;
+  left: 25px;
+  width: 30px;
+  height: 65px;
+  border-left: 3px solid #232d1f;
+  transform: rotate(-10deg);
+}
+
+/* 6. Film Overlay */
+.composite-film-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  pointer-events: none;
+}
+.film-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, transparent 50%, rgba(5, 7, 10, 0.75) 100%);
+}
+.film-amber-lightleak {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 45%;
+  height: 45%;
+  background: radial-gradient(circle at 100% 0%, rgba(255, 179, 71, 0.18) 0%, transparent 70%);
+  mix-blend-mode: screen;
+}
+.film-scratches {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(0deg, rgba(255,255,255,0.015) 0, rgba(255,255,255,0.015) 1px, transparent 1px, transparent 4px);
+  opacity: 0.6;
+}
+
+/* HAUNT STAGES (Photos 2, 3, 4) */
+.haunt-presence.stage-1 .haunt-creeper-face {
+  position: absolute;
+  top: 22%;
+  right: 16%;
+  width: 80px;
+  height: 95px;
+  background: radial-gradient(ellipse at 50% 40%, rgba(143, 209, 138, 0.45) 0%, rgba(10, 15, 20, 0.8) 70%, transparent 90%);
+  border-radius: 50%;
+  filter: blur(2px) contrast(150%);
+  z-index: 3;
+  animation: creeper-breath 4s infinite alternate ease-in-out;
+}
+@keyframes creeper-breath {
+  0% { opacity: 0.35; transform: scale(0.95); }
+  100% { opacity: 0.75; transform: scale(1.05) translate(-4px, -2px); }
+}
+
+.haunt-presence.stage-2 .spectral-grip-hand {
+  position: absolute;
+  bottom: 25%;
+  width: 48px;
+  height: 38px;
+  background: #dcd4c3;
+  clip-path: polygon(0 50%, 25% 15%, 50% 10%, 75% 20%, 100% 50%, 80% 90%, 20% 90%);
+  filter: drop-shadow(0 0 10px rgba(0,0,0,0.9));
+  z-index: 5;
+}
+.spectral-grip-hand.left {
+  left: 20%;
+  transform: rotate(-25deg);
+}
+.spectral-grip-hand.right {
+  right: 20%;
+  transform: rotate(25deg) scaleX(-1);
+}
+
+/* Stage 3: Empty Seat with Chalk Outline */
+.composite-vanished-void {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 50%, #151822 0%, #06080d 85%);
+}
+.vanished-chalk-outline {
+  width: 140px;
+  height: 180px;
+  border: 2px dashed rgba(242, 232, 213, 0.65);
+  border-radius: 50% 50% 30% 30% / 40% 40% 60% 60%;
+  filter: drop-shadow(0 0 8px rgba(242, 232, 213, 0.4));
+  animation: chalk-hum 3s infinite alternate;
+}
+@keyframes chalk-hum {
+  0% { opacity: 0.5; }
+  100% { opacity: 0.85; filter: drop-shadow(0 0 12px rgba(255, 179, 71, 0.6)); }
+}
+.vanished-shadow-stain {
+  position: absolute;
+  bottom: 18%;
+  width: 160px;
+  height: 50px;
+  background: radial-gradient(ellipse, rgba(0,0,0,0.85) 0%, transparent 75%);
+}
+.vanished-whisper-text {
+  font-family: var(--font-caption);
+  color: var(--color-oxblood);
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 18px;
+  font-weight: bold;
+}

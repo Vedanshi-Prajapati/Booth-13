@@ -1,0 +1,47 @@
+.compositor-frame {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--color-paper);
+  padding: 12px 12px 14px 12px;
+  box-shadow: var(--shadow-booth);
+  border: var(--border-strip);
+  border-radius: var(--radius-strip);
+  width: fit-content;
+  user-select: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.canvas-wrapper {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-midnight);
+  border: 1px solid rgba(14, 18, 36, 0.35);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.compositor-canvas {
+  display: block;
+  image-rendering: auto;
+}
+
+.shot-caption {
+  margin-top: 10px;
+  font-family: var(--font-caption);
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  color: var(--color-midnight);
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.shot-caption.visible {
+  opacity: 1;
+  color: var(--color-oxblood);
+  font-weight: bold;
+}

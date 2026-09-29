@@ -1,0 +1,351 @@
+.the-wall-scene {
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  animation: wall-fade 0.3s ease-out;
+}
+
+@keyframes wall-fade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.wall-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 1px solid rgba(255, 179, 71, 0.2);
+  padding-bottom: 16px;
+}
+
+.wall-tag {
+  font-family: var(--font-caption);
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: var(--color-amber);
+  text-transform: uppercase;
+}
+
+.wall-title {
+  font-family: var(--font-sign);
+  font-size: clamp(24px, 4vw, 36px);
+  color: var(--color-paper);
+  letter-spacing: 1.5px;
+  margin: 4px 0;
+  text-shadow: 2px 2px 0 var(--color-oxblood);
+}
+
+.wall-subtitle {
+  font-family: var(--font-caption);
+  color: #9ea7c2;
+  font-size: 13px;
+  max-width: 540px;
+  line-height: 1.4;
+}
+
+.take-another-btn {
+  background: var(--color-oxblood);
+  color: var(--color-paper);
+  border: 1px solid var(--color-amber);
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-family: var(--font-sign);
+  font-size: 13px;
+  letter-spacing: 1px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.take-another-btn:hover {
+  background: #872027;
+  box-shadow: 0 0 16px rgba(255, 179, 71, 0.4);
+  transform: translateY(-2px);
+}
+
+.take-another-btn.secondary {
+  background: #181d30;
+  font-family: var(--font-caption);
+  font-size: 12px;
+  padding: 8px 16px;
+}
+
+/* Brick Wall Surface */
+.brick-surface {
+  position: relative;
+  background-color: #0d101d;
+  /* Dark weathered brick pattern */
+  background-image: 
+    linear-gradient(rgba(14, 18, 36, 0.88), rgba(8, 10, 20, 0.95)),
+    repeating-linear-gradient(0deg, #181c2e, #181c2e 1px, transparent 1px, transparent 28px),
+    repeating-linear-gradient(90deg, #181c2e, #181c2e 1px, transparent 1px, transparent 56px);
+  border: 2px solid rgba(255, 179, 71, 0.15);
+  border-radius: 6px;
+  padding: 40px 24px;
+  box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.9), 0 16px 40px rgba(0, 0, 0, 0.6);
+  min-height: 480px;
+  overflow: hidden;
+}
+
+.wall-spotlight {
+  position: absolute;
+  top: -80px;
+  left: 45%;
+  width: 450px;
+  height: 350px;
+  background: radial-gradient(ellipse at center, rgba(255, 179, 71, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Pinned Strips Grid */
+.pinned-strips-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 32px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Individual Pinned Photo Strip */
+.pinned-strip {
+  position: relative;
+  background-color: var(--color-paper);
+  color: #1a1715;
+  width: 140px;
+  padding: 18px 8px 12px;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.65), 0 2px 6px rgba(0, 0, 0, 0.3);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: default;
+  transition: transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.25s ease;
+  user-select: none;
+}
+
+/* Hover lifts the strip slightly */
+.pinned-strip:hover {
+  transform: translateY(-8px) scale(1.04) rotate(0deg) !important;
+  box-shadow: 0 20px 36px rgba(0, 0, 0, 0.8), 0 0 14px rgba(255, 179, 71, 0.2);
+  z-index: 10;
+}
+
+/* Brass Pushpin at Top */
+.pushpin {
+  position: absolute;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  background: radial-gradient(circle at 35% 35%, #f1b764, #945f1b);
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+  z-index: 3;
+}
+
+.strip-frames-column {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+}
+
+.mini-frame {
+  position: relative;
+  width: 100%;
+  height: 72px;
+  background: #252833;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.mini-silhouette {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.mini-head {
+  width: 18px;
+  height: 22px;
+  background: #181a22;
+  border-radius: 50%;
+  margin-bottom: 2px;
+}
+
+.mini-shoulders {
+  width: 48px;
+  height: 24px;
+  background: #181a22;
+  border-radius: 20px 20px 0 0;
+}
+
+/* Extra Figure on Anomalous Frame 2 */
+.mini-extra-figure {
+  position: absolute;
+  right: 12px;
+  bottom: 0;
+  width: 22px;
+  height: 42px;
+  background: #090b12;
+  border-radius: 12px 12px 0 0;
+  box-shadow: 0 0 6px rgba(107, 26, 31, 0.8);
+  animation: glitch-figure 3s infinite;
+}
+
+@keyframes glitch-figure {
+  0%, 100% { opacity: 0.95; }
+  45% { opacity: 0.4; }
+  50% { opacity: 1; }
+  52% { opacity: 0.2; }
+  54% { opacity: 0.95; }
+}
+
+.mini-chalk-trace {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.mini-chalk-outline {
+  width: 44px;
+  height: 44px;
+  border: 1px dashed rgba(242, 232, 213, 0.6);
+  border-radius: 18px 18px 0 0;
+}
+
+.mini-double-shadow {
+  position: absolute;
+  right: 20px;
+  bottom: 0;
+  width: 32px;
+  height: 38px;
+  background: rgba(0, 0, 0, 0.55);
+  border-radius: 14px 14px 0 0;
+}
+
+.strip-meta-footer {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--font-caption);
+  font-size: 8px;
+  letter-spacing: 0.5px;
+  color: #3b352e;
+  line-height: 1.25;
+}
+
+/* The Anomalous Strip Highlights */
+.pinned-strip.anomaly-strip {
+  cursor: pointer;
+  border: 1px solid rgba(107, 26, 31, 0.4);
+}
+
+.pinned-strip.anomaly-strip:hover {
+  border-color: var(--color-oxblood);
+}
+
+.anomaly-marker {
+  position: absolute;
+  bottom: -10px;
+  background: var(--color-oxblood);
+  color: var(--color-paper);
+  font-family: var(--font-caption);
+  font-size: 9px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 2px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.5px;
+  animation: pulse-marker 2s infinite;
+}
+
+@keyframes pulse-marker {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); background: #881c22; }
+}
+
+/* Faint Outlines of Strips Not Yet Made */
+.empty-strip-slot {
+  position: relative;
+  width: 140px;
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 18px;
+  opacity: 0.35;
+  transition: opacity 0.2s ease;
+}
+
+.empty-strip-slot:hover {
+  opacity: 0.65;
+}
+
+.faint-pin-hole {
+  position: absolute;
+  top: 6px;
+  width: 6px;
+  height: 6px;
+  background: #000;
+  border: 1px solid rgba(255, 179, 71, 0.4);
+  border-radius: 50%;
+}
+
+.faint-outline {
+  width: 100%;
+  height: 100%;
+  border: 1.5px dashed rgba(242, 232, 213, 0.35);
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 12px;
+  text-align: center;
+}
+
+.faint-text {
+  font-family: var(--font-caption);
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: rgba(242, 232, 213, 0.65);
+}
+
+.faint-subtext {
+  font-family: var(--font-caption);
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  color: var(--color-amber);
+}
+
+/* Bottom Bar */
+.wall-bottom-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 4px;
+}
+
+.wall-lore-quote {
+  font-family: var(--font-caption);
+  font-size: 13px;
+  font-style: italic;
+  color: #8c95b3;
+}

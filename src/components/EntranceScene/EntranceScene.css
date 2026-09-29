@@ -1,0 +1,392 @@
+.entrance-street-scene {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  background: radial-gradient(ellipse at 50% 15%, #181d33 0%, #0a0d18 70%);
+  border: 1px solid rgba(255, 179, 71, 0.2);
+  border-radius: 6px;
+  padding: 24px 20px 18px;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.8), 0 10px 30px rgba(0, 0, 0, 0.5);
+  margin-bottom: 24px;
+  overflow: hidden;
+  user-select: none;
+}
+
+/* Sodium Lamp Lighting Ambience */
+.sodium-lamp-cone {
+  position: absolute;
+  top: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 320px;
+  height: 220px;
+  background: radial-gradient(ellipse at 50% 0%, rgba(255, 179, 71, 0.18) 0%, rgba(255, 179, 71, 0) 70%);
+  pointer-events: none;
+}
+
+/* Neon Street Sign */
+.street-sign-box {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.sign-frame {
+  position: relative;
+  background: #060810;
+  border: 3px solid #2a1f18;
+  border-radius: 6px;
+  padding: 12px 28px;
+  box-shadow: 0 0 25px rgba(255, 179, 71, 0.25), inset 0 0 10px rgba(0, 0, 0, 0.9);
+  text-align: center;
+}
+
+.sign-neon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.sign-line-1 {
+  font-family: var(--font-sign);
+  font-size: clamp(16px, 3.2vw, 22px);
+  color: var(--color-amber);
+  letter-spacing: 1.5px;
+  text-shadow: 0 0 10px rgba(255, 179, 71, 0.6), 0 0 20px rgba(255, 179, 71, 0.3);
+}
+
+.sign-line-2 {
+  font-family: var(--font-caption);
+  font-size: 13px;
+  color: var(--color-paper);
+  letter-spacing: 2px;
+  opacity: 0.9;
+}
+
+/* Fluttering Moth */
+.street-moth {
+  position: absolute;
+  width: 16px;
+  height: 14px;
+  cursor: pointer;
+  z-index: 20;
+  transition: left 0.4s ease-out, top 0.4s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: moth-float 3.5s infinite ease-in-out;
+}
+
+.street-moth.fluttering-fast {
+  animation: moth-frenzy 0.8s infinite ease-in-out;
+}
+
+@keyframes moth-float {
+  0%, 100% { transform: translate(0, 0) rotate(10deg); }
+  25% { transform: translate(14px, -8px) rotate(-15deg); }
+  50% { transform: translate(6px, 12px) rotate(20deg); }
+  75% { transform: translate(-10px, 4px) rotate(-8deg); }
+}
+
+@keyframes moth-frenzy {
+  0%, 100% { transform: scale(1.1) translate(2px, -3px) rotate(25deg); }
+  50% { transform: scale(0.9) translate(-4px, 4px) rotate(-20deg); }
+}
+
+.moth-body {
+  width: 3px;
+  height: 10px;
+  background: #3e3223;
+  border-radius: 2px;
+  z-index: 2;
+}
+
+.moth-wing {
+  position: absolute;
+  width: 7px;
+  height: 11px;
+  background: rgba(242, 232, 213, 0.65);
+  border-radius: 50% 50% 30% 30%;
+  animation: wing-flap 0.12s infinite alternate;
+}
+
+.moth-wing.left {
+  left: 0;
+  transform-origin: right center;
+}
+
+.moth-wing.right {
+  right: 0;
+  transform-origin: left center;
+}
+
+@keyframes wing-flap {
+  from { transform: scaleX(1); opacity: 0.8; }
+  to { transform: scaleX(0.2); opacity: 0.5; }
+}
+
+/* Interactive Objects Row */
+.street-objects-row {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-end;
+  gap: 20px;
+  padding: 10px 0;
+}
+
+/* 1. Missing-Person Poster */
+.street-poster-card {
+  position: relative;
+  width: 100px;
+  background: var(--color-paper);
+  color: #1a1715;
+  padding: 8px 6px 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transform: rotate(-2deg);
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.street-poster-card:hover {
+  transform: rotate(0deg) scale(1.06) translateY(-4px);
+  box-shadow: 0 10px 24px rgba(255, 179, 71, 0.35);
+  border-color: var(--color-amber);
+}
+
+.poster-pin {
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, #e6a852, #8a5716);
+  border-radius: 50%;
+  margin-bottom: 4px;
+}
+
+.poster-header {
+  font-family: var(--font-sign);
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--color-oxblood);
+}
+
+.poster-silhouette-photo {
+  width: 72px;
+  height: 80px;
+  background: #252833;
+  margin: 4px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #10121a;
+}
+
+.smeared-figure {
+  width: 44px;
+  height: 56px;
+  background: radial-gradient(ellipse at 50% 30%, #525666 0%, #151720 70%);
+  filter: blur(2px);
+  border-radius: 50% 50% 40% 40%;
+}
+
+.poster-caption {
+  font-family: var(--font-caption);
+  font-size: 8px;
+  letter-spacing: 0.5px;
+  color: #55504a;
+}
+
+/* 2. Coin Slot Unit */
+.street-coin-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.coin-slot-unit {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.coin-slot-rim {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, #32364a, #161824);
+  border: 2px solid rgba(255, 179, 71, 0.4);
+  border-radius: 4px;
+  padding: 12px 18px;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.15), 0 6px 14px rgba(0, 0, 0, 0.6);
+  transition: all 0.2s ease;
+}
+
+.coin-slot-unit:hover .coin-slot-rim {
+  border-color: var(--color-amber);
+  box-shadow: 0 0 14px rgba(255, 179, 71, 0.35);
+  transform: translateY(-2px);
+}
+
+.coin-aperture {
+  width: 32px;
+  height: 4px;
+  background: #000;
+  border-radius: 2px;
+  margin-bottom: 6px;
+  box-shadow: inset 0 1px 2px #000;
+}
+
+.coin-text {
+  font-family: var(--font-sign);
+  font-size: 11px;
+  color: var(--color-amber);
+  letter-spacing: 1px;
+}
+
+.coin-tally-hint {
+  font-family: var(--font-caption);
+  font-size: 11px;
+  color: #9ea7c2;
+  min-height: 16px;
+}
+
+.extra-strip-awarded {
+  color: var(--color-ghost-green);
+  font-weight: bold;
+}
+
+/* 3. Eyes in the Bin */
+.street-trash-bin {
+  position: relative;
+  width: 90px;
+  height: 120px;
+  background: linear-gradient(180deg, #24293d 0%, #111422 100%);
+  border-radius: 4px 4px 10px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.7);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.25s ease;
+  overflow: hidden;
+}
+
+.street-trash-bin:hover {
+  border-color: var(--color-ghost-green);
+  box-shadow: 0 10px 24px rgba(143, 209, 138, 0.25);
+  transform: translateY(-3px);
+}
+
+.bin-rim {
+  width: 100%;
+  height: 14px;
+  background: #313752;
+  border-bottom: 2px solid #0b0d16;
+}
+
+.bin-darkness {
+  width: 72px;
+  height: 40px;
+  background: #04050a;
+  border-radius: 0 0 18px 18px;
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bin-eyes {
+  display: flex;
+  gap: 12px;
+  animation: bin-blink 4.5s infinite ease-in-out;
+}
+
+@keyframes bin-blink {
+  0%, 42%, 48%, 92%, 100% {
+    opacity: 0.9;
+    transform: scaleY(1);
+  }
+  45% {
+    opacity: 0;
+    transform: scaleY(0.1);
+  }
+  95% {
+    opacity: 0;
+    transform: scaleY(0.1);
+  }
+}
+
+.bin-eye {
+  width: 6px;
+  height: 4px;
+  background: var(--color-ghost-green);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--color-ghost-green);
+}
+
+.bin-ribs {
+  display: flex;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.bin-ribs span {
+  width: 3px;
+  height: 38px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 2px;
+}
+
+.hover-whisper {
+  position: absolute;
+  bottom: 4px;
+  font-family: var(--font-caption);
+  font-size: 9px;
+  color: var(--color-amber);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.street-poster-card:hover .hover-whisper,
+.street-trash-bin:hover .hover-whisper {
+  opacity: 1;
+}
+
+/* Faint Inactivity Hint */
+.entrance-idle-hint {
+  margin-top: 18px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.08);
+  text-align: center;
+  min-height: 24px;
+}
+
+.hint-text {
+  font-family: var(--font-caption);
+  font-size: 12px;
+  letter-spacing: 0.8px;
+  color: rgba(242, 232, 213, 0.45);
+  font-style: italic;
+  transition: opacity 1.2s ease-in-out;
+}
+
+.hint-text.latent {
+  opacity: 0.15;
+}
+
+.hint-text.visible {
+  opacity: 0.65;
+  color: var(--color-amber);
+}
+
+@media (max-width: 600px) {
+  .street-objects-row {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

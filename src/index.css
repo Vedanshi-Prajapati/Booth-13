@@ -1,0 +1,53 @@
+/* BOOTH 13 — Design Tokens & Core Styles */
+:root {
+  /* Color Tokens */
+  --color-paper: #F2E8D5;
+  --color-oxblood: #6B1A1F;
+  --color-amber: #FFB347;
+  --color-midnight: #0E1224;
+  --color-ghost-green: #8FD18A;
+
+  /* Typography Tokens */
+  --font-sign: 'Alfa Slab One', cursive, serif;
+  --font-caption: 'Special Elite', cursive, monospace;
+  --font-ui: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Motion Tokens */
+  --motion-flash: 120ms;
+  --motion-countdown-tick: 900ms;
+  --motion-strip-print: 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-curtain-open: 700ms cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* Texture & Depth Tokens */
+  --shadow-booth: 0 20px 45px rgba(0, 0, 0, 0.65), 0 4px 12px rgba(0, 0, 0, 0.4);
+  --border-strip: 1px solid rgba(14, 18, 36, 0.18);
+  --radius-strip: 2px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-ui);
+  background-color: var(--color-midnight);
+  color: var(--color-paper);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

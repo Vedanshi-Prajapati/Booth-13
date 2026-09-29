@@ -1,0 +1,145 @@
+.notecard-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(14, 18, 36, 0.78);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+  animation: overlay-fade 0.2s ease-out;
+}
+
+@keyframes overlay-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.notecard-paper {
+  position: relative;
+  background-color: var(--color-paper);
+  color: #1a1715;
+  width: 100%;
+  max-width: 360px;
+  padding: 30px 24px 20px 24px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65), 0 2px 6px rgba(0, 0, 0, 0.4);
+  /* Ragged torn paper edge effect */
+  clip-path: polygon(
+    0% 2px, 3% 0px, 8% 3px, 15% 1px, 22% 4px, 30% 0px, 38% 3px, 46% 1px, 54% 4px, 62% 1px, 70% 3px, 78% 0px, 85% 3px, 92% 1px, 97% 4px, 100% 2px,
+    99% 12%, 100% 22%, 99% 34%, 100% 48%, 98% 60%, 100% 72%, 99% 84%, 100% 98%,
+    96% 100%, 88% 98%, 80% 100%, 72% 98%, 64% 99%, 55% 97%, 45% 100%, 36% 98%, 27% 100%, 18% 97%, 10% 99%, 2% 97%, 0% 100%,
+    1% 88%, 0% 76%, 2% 64%, 0% 50%, 1% 36%, 0% 22%, 2% 10%
+  );
+  transform: rotate(-1.5deg);
+  animation: notecard-drop 0.28s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+@keyframes notecard-drop {
+  from {
+    opacity: 0;
+    transform: translateY(-24px) scale(0.92) rotate(-4deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(-1.5deg);
+  }
+}
+
+.notecard-pin {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle at 35% 35%, #e6a852, #8a5716);
+  border-radius: 50%;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.45);
+}
+
+.notecard-tag {
+  font-family: var(--font-caption);
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--color-oxblood);
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+  border-bottom: 1px dashed rgba(107, 26, 31, 0.4);
+  padding-bottom: 4px;
+  font-weight: bold;
+}
+
+.notecard-photo-frame {
+  margin: 0 auto 16px auto;
+  width: 120px;
+  height: 140px;
+  background: #252833;
+  border: 4px solid #fff;
+  box-shadow: inset 0 0 12px #000, 0 3px 6px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notecard-smeared-photo {
+  width: 70px;
+  height: 90px;
+  background: radial-gradient(ellipse at 50% 35%, #424652 0%, #1e2028 65%, transparent 75%);
+  filter: blur(3px) contrast(140%);
+  border-radius: 50% 50% 40% 40%;
+}
+
+.notecard-body {
+  font-family: var(--font-caption);
+  text-align: center;
+  padding: 8px 0 16px;
+}
+
+.notecard-quote {
+  font-size: 18px;
+  line-height: 1.45;
+  color: #121010;
+  letter-spacing: 0.2px;
+  font-weight: 600;
+}
+
+.notecard-subtext {
+  font-size: 13px;
+  color: #55504a;
+  margin-top: 8px;
+  line-height: 1.4;
+  font-style: italic;
+}
+
+.notecard-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  border-top: 1px dotted rgba(26, 23, 21, 0.35);
+  padding-top: 10px;
+}
+
+.notecard-evidence {
+  font-family: var(--font-caption);
+  font-size: 10px;
+  color: var(--color-oxblood);
+  letter-spacing: 1px;
+}
+
+.notecard-close-btn {
+  background: none;
+  border: none;
+  font-family: var(--font-caption);
+  font-size: 12px;
+  color: #4a453f;
+  cursor: pointer;
+  padding: 2px 6px;
+  transition: color 0.15s;
+}
+
+.notecard-close-btn:hover {
+  color: var(--color-oxblood);
+  text-decoration: underline;
+}
