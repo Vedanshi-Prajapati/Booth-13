@@ -89,26 +89,27 @@ export async function downloadPhotoStrip(customization) {
   });
 
   // Footer Branding
-  const footerY = topOffset + 4 * (frameHeight + frameGap) + 10;
+  const footerY = topOffset + 4 * (frameHeight + frameGap) + 12;
 
   ctx.textAlign = 'center';
-  ctx.fillStyle = '#e4d5b7';
-  ctx.font = 'bold 24px "Cinzel", Georgia, serif';
-  ctx.fillText('THE CURSED', width / 2, footerY + 28);
-  ctx.fillText('PHOTO BOOTH', width / 2, footerY + 58);
+  ctx.fillStyle = '#ffb347';
+  ctx.font = '24px "Alfa Slab One", cursive, serif';
+  ctx.fillText('BOOTH 13', width / 2, footerY + 28);
 
-  ctx.fillStyle = '#8f8576';
-  ctx.font = '16px "Special Elite", monospace';
-  ctx.fillText('31 · 10 · 2026', width / 2, footerY + 95);
+  ctx.fillStyle = '#e4d5b7';
+  ctx.font = '14px "Special Elite", monospace';
+  const today = new Date();
+  const dateFormatted = `${today.getDate().toString().padStart(2, '0')} · ${(today.getMonth() + 1).toString().padStart(2, '0')} · ${today.getFullYear()}`;
+  ctx.fillText(`STRIP NO. 0013 · ${dateFormatted}`, width / 2, footerY + 60);
 
   ctx.fillStyle = '#cf7980';
   ctx.font = 'italic 32px "Caveat", cursive, Georgia';
-  ctx.fillText('You brought a friend.', width / 2, footerY + 140);
+  ctx.fillText('“You brought a friend.”', width / 2, footerY + 104);
 
   // Trigger download
   const dataUrl = canvas.toDataURL('image/png');
   const link = document.createElement('a');
-  link.download = 'the-cursed-photo-strip-31-10-2026.png';
+  link.download = `booth-13-strip-0013.png`;
   link.href = dataUrl;
   link.click();
 }

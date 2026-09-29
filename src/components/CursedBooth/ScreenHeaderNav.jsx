@@ -52,14 +52,14 @@ export function ScreenHeaderNav({
         </span>
       </div>
 
-      {/* Right side: Audio Mute & Grid View (Zero Emojis) */}
+      {/* Right side: Audio Mute & Grid View */}
       <div className="nav-tools">
         <button
           type="button"
-          className="nav-icon-btn"
+          className={`nav-icon-btn ${!isMuted ? 'sound-active' : ''}`}
           onClick={onToggleSound}
-          title={isMuted ? 'Unmute Sound Effects' : 'Mute Sound Effects'}
-          aria-label={isMuted ? 'Unmute Sound Effects' : 'Mute Sound Effects'}
+          title={isMuted ? 'Sound Off (Press M to enable)' : 'Sound Active (Press M to mute)'}
+          aria-label={isMuted ? 'Unmute Sound' : 'Mute Sound'}
           id="toggle-sound-btn"
         >
           <CustomizerIcon
@@ -67,6 +67,13 @@ export function ScreenHeaderNav({
             size={18}
             color={isMuted ? '#8a91a3' : '#ffb347'}
           />
+          {!isMuted && (
+            <span className="sound-waves-indicator" aria-hidden="true">
+              <span className="wave-bar w1" />
+              <span className="wave-bar w2" />
+              <span className="wave-bar w3" />
+            </span>
+          )}
         </button>
 
         <button

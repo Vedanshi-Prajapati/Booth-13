@@ -10,23 +10,49 @@ export function ScreenPhotoViewer({
 }) {
   const photo = PHOTOS_DATA[photoIndex];
 
+  // Arrow key navigation
+  React.useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') {
+        e.preventDefault();
+        onNext();
+      } else if (e.key === 'ArrowLeft' && onPrev) {
+        e.preventDefault();
+        onPrev();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onNext, onPrev]);
+
   return (
     <section className="photo-screen" aria-label={`Cursed Photo ${photoIndex + 1}`}>
       <div className="photo-screen-header">
-        <span className="photo-header-step">{photo.header} · DEVELOPED STILL</span>
+        <div className="photo-step-pills">
+          {[0, 1, 2, 3].map(idx => (
+            <span
+              key={idx}
+              className={`photo-step-dot ${idx === photoIndex ? 'active' : ''} ${idx < photoIndex ? 'completed' : ''}`}
+            />
+          ))}
+        </div>
+        <span className="photo-header-step">EXPOSURE 0{photoIndex + 1} OF 04 · DEVELOPED STILL</span>
         <h2 className="photo-header-tagline">“{photo.caption}”</h2>
       </div>
 
       <div
         className="polaroid-frame"
         onClick={onNext}
-        title="Click to view next frame"
+        title="Click or press Right Arrow to examine next frame"
         role="button"
         tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') onNext();
-        }}
       >
+        {/* Photo Corner Mounts */}
+        <div className="photo-mount-tab tl" />
+        <div className="photo-mount-tab tr" />
+        <div className="photo-mount-tab bl" />
+        <div className="photo-mount-tab br" />
+
         {/* Dynamic Character Composite showing custom character & progression of haunting */}
         <div className="polaroid-image-box">
           <CharacterComposite
@@ -41,7 +67,7 @@ export function ScreenPhotoViewer({
             {photo.caption}
           </span>
           <span className="photo-subcaption-text">
-            {photo.description}
+            {photoIndex === 3 ? 'Occupant not found.' : photo.description}
           </span>
         </div>
       </div>
@@ -64,7 +90,7 @@ export function ScreenPhotoViewer({
           onClick={onNext}
           id="photo-next-btn"
         >
-          {photoIndex < 3 ? 'Examine Next Photo →' : 'Reveal The Outcome →'}
+          {photoIndex < 3 ? 'Examine Next Photo [→]' : 'Reveal The Outcome [→]'}
         </button>
       </div>
     </section>

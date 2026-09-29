@@ -5,7 +5,12 @@ export function ScreenActions({ customization, onTakeAnother }) {
   const [toast, setToast] = useState('');
   const [downloading, setDownloading] = useState(false);
 
-  const handleDownload = async () => {
+  const showToast = React.useCallback((msg) => {
+    setToast(msg);
+    setTimeout(() => setToast(''), 3000);
+  }, []);
+
+  const handleDownload = React.useCallback(async () => {
     try {
       setDownloading(true);
       await downloadPhotoStrip(customization);
@@ -15,9 +20,9 @@ export function ScreenActions({ customization, onTakeAnother }) {
     } finally {
       setDownloading(false);
     }
-  };
+  }, [customization, showToast]);
 
-  const handleShare = async () => {
+  const handleShare = React.useCallback(async () => {
     if (navigator.share) {
       try {
         await navigator.share({
@@ -37,20 +42,35 @@ export function ScreenActions({ customization, onTakeAnother }) {
         showToast('Could not copy link.');
       }
     }
-  };
+  }, [showToast]);
 
-  const showToast = (msg) => {
-    setToast(msg);
-    setTimeout(() => setToast(''), 3000);
-  };
+  // Keyboard shortcuts on actions screen
+  React.useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'd' || e.key === 'D') {
+        handleDownload();
+      } else if (e.key === 's' || e.key === 'S') {
+        handleShare();
+      } else if (e.key === 't' || e.key === 'T' || e.key === 'r' || e.key === 'R') {
+        onTakeAnother();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [handleDownload, handleShare, onTakeAnother]);
 
   return (
     <section className="actions-screen" aria-label="Final Actions - Keep The Memory">
       {toast && <div className="curse-toast">{toast}</div>}
 
+      <div className="archival-stamp-badge" aria-hidden="true">
+        <span className="stamp-circle">STRIP NO. 0013</span>
+        <span className="stamp-sub">ARCHIVED</span>
+      </div>
+
       <div className="actions-title-wrap">
-        <h2 className="actions-heading">Keep the memory</h2>
-        <span className="actions-subheading">(if you dare)</span>
+        <h2 className="actions-heading">KEEP THE MEMORY</h2>
+        <span className="actions-subheading">“Four photos. None of them belong to you anymore.”</span>
       </div>
 
       <div className="actions-btn-group">
@@ -66,7 +86,8 @@ export function ScreenActions({ customization, onTakeAnother }) {
             <polyline points="7 10 12 15 17 10" />
             <line x1="12" y1="15" x2="12" y2="3" />
           </svg>
-          {downloading ? 'GENERATING STRIP...' : 'DOWNLOAD PHOTO STRIP'}
+          <span>{downloading ? 'GENERATING STRIP...' : 'DOWNLOAD PHOTO STRIP'}</span>
+          <span className="btn-key-badge">[D]</span>
         </button>
 
         <button
@@ -80,7 +101,8 @@ export function ScreenActions({ customization, onTakeAnother }) {
             <polyline points="16 6 12 2 8 6" />
             <line x1="12" y1="2" x2="12" y2="15" />
           </svg>
-          SHARE
+          <span>SHARE STRIP</span>
+          <span className="btn-key-badge">[S]</span>
         </button>
 
         <button
@@ -93,12 +115,13 @@ export function ScreenActions({ customization, onTakeAnother }) {
             <polyline points="1 4 1 10 7 10" />
             <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10" />
           </svg>
-          TAKE ANOTHER
+          <span>ENTER BOOTH AGAIN</span>
+          <span className="btn-key-badge">[T]</span>
         </button>
       </div>
 
       <div className="occult-star-symbol" aria-hidden="true">
-        ✦
+        ✦ · · · BOOTH 13 · · · ✦
       </div>
     </section>
   );

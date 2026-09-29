@@ -191,6 +191,92 @@ class HorrorSoundEngine {
       osc.stop(this.ctx.currentTime + 1.5);
     } catch {}
   }
+
+  playCoin() {
+    if (this.muted || !this.ctx) return;
+    try {
+      const now = this.ctx.currentTime;
+      // Metallic coin clink 1
+      const osc1 = this.ctx.createOscillator();
+      const gain1 = this.ctx.createGain();
+      osc1.type = 'triangle';
+      osc1.frequency.setValueAtTime(1420, now);
+      osc1.frequency.exponentialRampToValueAtTime(980, now + 0.08);
+
+      gain1.gain.setValueAtTime(0.35, now);
+      gain1.gain.exponentialRampToValueAtTime(0.01, now + 0.08);
+
+      osc1.connect(gain1);
+      gain1.connect(this.ctx.destination);
+      osc1.start(now);
+      osc1.stop(now + 0.09);
+
+      // Secondary bounce clink
+      const osc2 = this.ctx.createOscillator();
+      const gain2 = this.ctx.createGain();
+      osc2.type = 'triangle';
+      osc2.frequency.setValueAtTime(1680, now + 0.06);
+      osc2.frequency.exponentialRampToValueAtTime(1100, now + 0.16);
+
+      gain2.gain.setValueAtTime(0.25, now + 0.06);
+      gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.16);
+
+      osc2.connect(gain2);
+      gain2.connect(this.ctx.destination);
+      osc2.start(now + 0.06);
+      osc2.stop(now + 0.17);
+    } catch {}
+  }
+
+  playCurtain() {
+    if (this.muted || !this.ctx) return;
+    try {
+      const bufferSize = this.ctx.sampleRate * 0.45;
+      const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+      const output = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        output[i] = (Math.random() * 2 - 1) * Math.sin((i / bufferSize) * Math.PI);
+      }
+
+      const noise = this.ctx.createBufferSource();
+      noise.buffer = buffer;
+
+      const filter = this.ctx.createBiquadFilter();
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(450, this.ctx.currentTime);
+      filter.frequency.linearRampToValueAtTime(220, this.ctx.currentTime + 0.4);
+
+      const gain = this.ctx.createGain();
+      gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, this.ctx.currentTime + 0.42);
+
+      noise.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.ctx.destination);
+      noise.start();
+    } catch {}
+  }
+
+  playGlitch() {
+    if (this.muted || !this.ctx) return;
+    try {
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sawtooth';
+      const now = this.ctx.currentTime;
+      osc.frequency.setValueAtTime(220, now);
+      osc.frequency.setValueAtTime(110, now + 0.04);
+      osc.frequency.setValueAtTime(330, now + 0.08);
+
+      gain.gain.setValueAtTime(0.3, now);
+      gain.gain.exponentialRampToValueAtTime(0.01, now + 0.15);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.16);
+    } catch {}
+  }
 }
 
 export const soundEngine = new HorrorSoundEngine();

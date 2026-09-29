@@ -2,6 +2,9 @@ import React from 'react';
 import { CharacterComposite } from './CharacterComposite';
 
 export function ScreenPhotoStrip({ customization, onProceed }) {
+  const today = new Date();
+  const formattedDate = `${today.getDate().toString().padStart(2, '0')} · ${(today.getMonth() + 1).toString().padStart(2, '0')} · ${today.getFullYear()}`;
+
   return (
     <section className="strip-screen" aria-label="Assembled Photo Strip">
       <div className="strip-screen-header">
@@ -10,8 +13,14 @@ export function ScreenPhotoStrip({ customization, onProceed }) {
         <p className="strip-subtitle">Four exposures from Booth 13. Count how many people entered.</p>
       </div>
 
+      {/* Mechanical Dispenser Chute */}
+      <div className="strip-dispenser-slot" aria-hidden="true">
+        <div className="dispenser-lip" />
+        <span className="dispenser-warning">PHOTO STRIP DISPENSING</span>
+      </div>
+
       <div className="wood-table-stage">
-        <div className="vertical-photo-strip" id="photo-strip-element">
+        <div className="vertical-photo-strip printing-eject" id="photo-strip-element">
           {/* Frame 1: The Initial Still */}
           <div className="strip-frame-item">
             <CharacterComposite
@@ -49,9 +58,9 @@ export function ScreenPhotoStrip({ customization, onProceed }) {
           {/* Authentic Photo Strip Branding Footer */}
           <div className="strip-bottom-banner">
             <span className="strip-brand-title">
-              BOOTH 13 · STRIP NO. 0013
+              BOOTH 13
             </span>
-            <span className="strip-date">{new Date().toISOString().slice(0, 10)}</span>
+            <span className="strip-date">STRIP NO. 0013 · {formattedDate}</span>
             <span className="strip-handwritten-note">“You brought a friend.”</span>
           </div>
         </div>
