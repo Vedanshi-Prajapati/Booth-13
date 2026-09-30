@@ -47,12 +47,6 @@ export function ScreenPhotoViewer({
         role="button"
         tabIndex={0}
       >
-        {/* Photo Corner Mounts */}
-        <div className="photo-mount-tab tl" />
-        <div className="photo-mount-tab tr" />
-        <div className="photo-mount-tab bl" />
-        <div className="photo-mount-tab br" />
-
         {/* Dynamic Character Composite showing custom character & progression of haunting */}
         <div className="polaroid-image-box">
           <CharacterComposite

@@ -13,12 +13,6 @@ export function ScreenPhotoStrip({ customization, onProceed }) {
         <p className="strip-subtitle">Four exposures from Booth 13. Count how many people entered.</p>
       </div>
 
-      {/* Mechanical Dispenser Chute */}
-      <div className="strip-dispenser-slot" aria-hidden="true">
-        <div className="dispenser-lip" />
-        <span className="dispenser-warning">PHOTO STRIP DISPENSING</span>
-      </div>
-
       <div className="wood-table-stage">
         <div className="vertical-photo-strip printing-eject" id="photo-strip-element">
           {/* Frame 1: The Initial Still */}

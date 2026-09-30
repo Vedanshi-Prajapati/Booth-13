@@ -63,11 +63,6 @@ export function ScreenActions({ customization, onTakeAnother }) {
     <section className="actions-screen" aria-label="Final Actions - Keep The Memory">
       {toast && <div className="curse-toast">{toast}</div>}
 
-      <div className="archival-stamp-badge" aria-hidden="true">
-        <span className="stamp-circle">STRIP NO. 0013</span>
-        <span className="stamp-sub">ARCHIVED</span>
-      </div>
-
       <div className="actions-title-wrap">
         <h2 className="actions-heading">KEEP THE MEMORY</h2>
         <span className="actions-subheading">“Four photos. None of them belong to you anymore.”</span>
@@ -118,10 +113,6 @@ export function ScreenActions({ customization, onTakeAnother }) {
           <span>ENTER BOOTH AGAIN</span>
           <span className="btn-key-badge">[T]</span>
         </button>
-      </div>
-
-      <div className="occult-star-symbol" aria-hidden="true">
-        ✦ · · · BOOTH 13 · · · ✦
       </div>
     </section>
   );

@@ -51,12 +51,6 @@ export function ScreenCustomize({
         {/* Left Side: Dynamic Character Portrait with Real-Time Layers */}
         <div className="portrait-preview-container">
           <div className="portrait-frame">
-            {/* Vintage Brass Corner Screws */}
-            <div className="frame-screw tl" />
-            <div className="frame-screw tr" />
-            <div className="frame-screw bl" />
-            <div className="frame-screw br" />
-
             {/* Left / Right Quick Cycle Buttons */}
             <button
               type="button"
