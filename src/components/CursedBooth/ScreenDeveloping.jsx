@@ -7,7 +7,7 @@ export function ScreenDeveloping({ onComplete }) {
   useEffect(() => {
     soundEngine.playDeveloping();
     const startTime = Date.now();
-    const duration = 2400; // 2.4 seconds developing
+    const duration = 2400; // 2.4 seconds developing per SPEC
 
     const interval = setInterval(() => {
       const elapsed = Date.now() - startTime;
@@ -16,37 +16,54 @@ export function ScreenDeveloping({ onComplete }) {
 
       if (pct >= 100) {
         clearInterval(interval);
-        setTimeout(onComplete, 400);
+        setTimeout(onComplete, 350);
       }
-    }, 40);
+    }, 35);
 
     return () => clearInterval(interval);
   }, [onComplete]);
 
   return (
-    <section className="developing-screen" aria-label="Photo Developing Process">
-      <div className="developing-photo-card">
-        <div className="developing-plate">
-          <img
-            src="/assets/photo_01.jpg"
-            alt="Developing Film"
-            className="developing-fade-img"
-            style={{ opacity: 0.15 + (progress / 100) * 0.85 }}
-          />
-          <div className="developing-chemical-overlay" />
+    <section className="darkroom-developing-viewport" aria-label="Darkroom Chemical Development Process">
+      <div className="darkroom-tray-stage">
+        {/* Physical Photographic Plate Emerging in Chemical Tray */}
+        <figure className="developing-print-mount">
+          <div className="developing-bath-tray">
+            <img
+              src="/assets/photo_01.jpg"
+              alt="Film latent image developing in chemical bath"
+              className="developing-latent-image"
+              style={{ opacity: 0.12 + (progress / 100) * 0.88 }}
+            />
+            <div className="chemical-liquid-ripple" />
+          </div>
+
+          <figcaption className="developing-tray-caption">
+            <span className="tray-id">TRAY BATH NO. 01 — FIXER & ACCELERATOR</span>
+            <span className="tray-pct">{progress}% LATENT DENSITY</span>
+          </figcaption>
+        </figure>
+
+        <div className="developing-status-block">
+          <div className="developing-process-title">
+            DEVELOPING SILVER-HALIDE STILL
+          </div>
+          <div
+            className="developing-hairline-meter"
+            role="progressbar"
+            aria-valuenow={progress}
+            aria-valuemin="0"
+            aria-valuemax="100"
+          >
+            <div className="meter-fill" style={{ width: `${progress}%` }} />
+          </div>
+          <div className="developing-note">
+            Archival fixer setting. Do not open chamber.
+          </div>
         </div>
-      </div>
-
-      <div className="developing-text-label">
-        PHOTO DEVELOPING...
-      </div>
-
-      <div className="developing-progress-bar-wrap" role="progressbar" aria-valuenow={progress} aria-valuemin="0" aria-valuemax="100">
-        <div
-          className="developing-progress-fill"
-          style={{ width: `${progress}%` }}
-        />
       </div>
     </section>
   );
 }
+
+export default ScreenDeveloping;

@@ -7,33 +7,44 @@ export function ScreenRevelation({ onProceed }) {
   }, []);
 
   return (
-    <section className="revelation-screen" aria-label="Horror Climax Revelation">
-      <div className="screamer-card">
+    <section className="revelation-cinematic-viewport" aria-label="The Horror Climax Revelation">
+      {/* Dominant Photograph Partially Concealed in Deep Darkness */}
+      <div className="revelation-cinema-frame">
         <img
           src="/assets/jumpscare.jpg"
-          alt="Distorted Entity"
-          className="screamer-img"
+          alt="Distorted Entity lurking in the booth darkness"
+          className="revelation-entity-plate"
         />
 
-        <div className="revelation-text-overlay">
-          <h2 className="rev-line-1">
-            YOU LEFT SOMETHING<br />
-            BEHIND.
-          </h2>
-          <h1 className="rev-line-2">
-            YOURSELF.
-          </h1>
+        {/* Cinematic Vignette Shadow Shroud */}
+        <div className="revelation-shadow-shroud" />
 
-          <button
-            type="button"
-            className="btn-proceed-strip"
-            onClick={onProceed}
-            id="proceed-strip-btn"
-          >
-            VIEW YOUR STRIP →
-          </button>
+        {/* Minimal Stark Editorial Text Overlay */}
+        <div className="revelation-editorial-overlay">
+          <div className="revelation-text-block">
+            <span className="revelation-line-prelude">
+              YOU LEFT SOMETHING BEHIND.
+            </span>
+            <h1 className="revelation-line-monument">
+              YOURSELF.
+            </h1>
+          </div>
+
+          <div className="revelation-action-block">
+            <button
+              type="button"
+              className="btn-view-strip-editorial"
+              onClick={onProceed}
+              id="proceed-strip-btn"
+            >
+              <span>VIEW YOUR STRIP</span>
+              <span className="btn-arrow">→</span>
+            </button>
+          </div>
         </div>
       </div>
     </section>
   );
 }
+
+export default ScreenRevelation;

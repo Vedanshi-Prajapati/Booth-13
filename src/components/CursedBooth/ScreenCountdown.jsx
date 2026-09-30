@@ -2,99 +2,128 @@ import React, { useState, useEffect } from 'react';
 import { soundEngine } from '../../utils/audio';
 
 export function ScreenCountdown({ onComplete }) {
-  const [step, setStep] = useState(3); // 3, 2, 1, 'STUTTER', 'FLASH', 'DONE'
-  const showFlash = step === 'FLASH' || step === 'DONE';
+  const [phase, setPhase] = useState('ARM'); // 'ARM' (3), 'SEEK' (2), 'LOCK' (1), 'SHUTTER', 'FLASH', 'DONE'
+  const [seconds, setSeconds] = useState(3);
+  const showFlash = phase === 'FLASH' || phase === 'DONE';
 
   useEffect(() => {
     let timer;
-    if (step === 3) {
+
+    if (seconds === 3) {
       soundEngine.playTick();
-      timer = setTimeout(() => setStep(2), 900);
-    } else if (step === 2) {
+      timer = setTimeout(() => {
+        setSeconds(2);
+        setPhase('SEEK');
+      }, 900);
+    } else if (seconds === 2) {
       soundEngine.playTick();
-      timer = setTimeout(() => setStep(1), 900);
-    } else if (step === 1) {
+      timer = setTimeout(() => {
+        setSeconds(1);
+        setPhase('LOCK');
+      }, 900);
+    } else if (seconds === 1) {
       soundEngine.playTick();
-      // Final tick stutters per SPEC
+      // Final tick stutters per spec
       timer = setTimeout(() => {
         soundEngine.playGlitch();
-        setStep('STUTTER');
-      }, 500);
-    } else if (step === 'STUTTER') {
-      timer = setTimeout(() => setStep('FLASH'), 400);
-    } else if (step === 'FLASH') {
-      soundEngine.playFlash();
-      timer = setTimeout(() => {
-        setStep('DONE');
-        onComplete();
-      }, 650);
+        setPhase('SHUTTER');
+      }, 550);
     }
-    return () => clearTimeout(timer);
-  }, [step, onComplete]);
 
-  const getWhisperPrompt = () => {
-    switch (step) {
+    return () => clearTimeout(timer);
+  }, [seconds]);
+
+  useEffect(() => {
+    let shutterTimer;
+    if (phase === 'SHUTTER') {
+      shutterTimer = setTimeout(() => {
+        soundEngine.playFlash();
+        setPhase('FLASH');
+      }, 350);
+    } else if (phase === 'FLASH') {
+      shutterTimer = setTimeout(() => {
+        setPhase('DONE');
+        onComplete();
+      }, 600);
+    }
+    return () => clearTimeout(shutterTimer);
+  }, [phase, onComplete]);
+
+  const getArchivalPrompt = () => {
+    switch (seconds) {
       case 3:
-        return '“Hold still.”';
+        return 'Hold still for the emulsion.';
       case 2:
-        return '“Don\'t look behind you.”';
+        return 'Keep your gaze fixed forward.';
       case 1:
-      case 'STUTTER':
-        return '“It is already here.”';
+        return phase === 'SHUTTER' ? 'Do not look behind you.' : 'Focusing lens...';
       default:
         return '';
     }
   };
 
   return (
-    <section className="countdown-screen" aria-label="Inside Photo Booth Countdown">
-      {showFlash && <div className="flash-whiteout" />}
+    <section className="booth-chamber-viewport" aria-label="Inside Photo Booth Shutter Chamber">
+      {/* Retinal Flash Whiteout */}
+      {showFlash && <div className="flash-optical-burn" />}
 
-      <div className="booth-interior-frame">
-        <img
-          src="/assets/booth_interior.jpg"
-          alt="Inside the Photo Booth"
-          className={`booth-interior-bg ${step === 'STUTTER' ? 'stuttering-lens' : ''}`}
-        />
+      <div className="chamber-camera-stage">
+        {/* Large Cinematic Viewport Occupying Majority of Viewport */}
+        <div className="chamber-optics-frame">
+          <img
+            src="/assets/booth_interior.jpg"
+            alt="Inside Booth 13 vintage booth chamber"
+            className={`chamber-lens-image ${phase === 'SHUTTER' ? 'shutter-stutter' : ''}`}
+          />
 
-        {/* Vintage Camera Viewfinder Reticle & Tally Light */}
-        <div className="viewfinder-crosshairs" aria-hidden="true">
-          <div className="tally-indicator">
-            <span className="tally-dot" />
-            <span className="tally-text">REC · EXPOSURE 01</span>
+          {/* Authentic Camera Viewfinder Overlay */}
+          <div className="camera-viewfinder-overlay" aria-hidden="true">
+            {/* Top Bar: Camera Specs */}
+            <div className="viewfinder-header-meta">
+              <span className="rec-tally">
+                <span className="tally-square" />
+                <span className="tally-label">SHUTTER CHARGED</span>
+              </span>
+              <span className="lens-spec">F/2.8 · 1/60s · 50MM</span>
+              <span className="plate-serial">EXP 01 // 04</span>
+            </div>
+
+            {/* Lens Framing Crosshairs */}
+            <div className="viewfinder-crosshair center" />
+            <div className="viewfinder-bracket tl" />
+            <div className="viewfinder-bracket tr" />
+            <div className="viewfinder-bracket bl" />
+            <div className="viewfinder-bracket br" />
+
+            {/* Center Countdown / Shutter State */}
+            <div className="viewfinder-shutter-readout">
+              {phase !== 'FLASH' && phase !== 'DONE' && (
+                <div className="shutter-timer-digit" key={seconds}>
+                  {phase === 'SHUTTER' ? '—' : seconds}
+                </div>
+              )}
+
+              {phase === 'FLASH' && (
+                <div className="shutter-flash-burn-text">
+                  EXPOSING
+                </div>
+              )}
+
+              <div className="shutter-whisper-caption">
+                {getArchivalPrompt()}
+              </div>
+            </div>
+
+            {/* Bottom Bar: Mechanical Tape Feed */}
+            <div className="viewfinder-footer-meta">
+              <span>AGFA-GEVAERT 1974 SILVER-HALIDE</span>
+              <span>STANDBY FOR DISPENSE</span>
+            </div>
           </div>
-          <div className="reticle-corner tl" />
-          <div className="reticle-corner tr" />
-          <div className="reticle-corner bl" />
-          <div className="reticle-corner br" />
-        </div>
-
-        <div className="countdown-overlay">
-          {typeof step === 'number' && (
-            <div className="countdown-number" key={step}>
-              {step}
-            </div>
-          )}
-
-          {step === 'STUTTER' && (
-            <div className="countdown-number stutter-glitch">
-              1
-            </div>
-          )}
-
-          {step === 'FLASH' && (
-            <div className="countdown-flash-label">
-              FLASH
-            </div>
-          )}
-
-          {step !== 'FLASH' && step !== 'DONE' && (
-            <div className="countdown-whisper-text">
-              {getWhisperPrompt()}
-            </div>
-          )}
         </div>
       </div>
     </section>
   );
 }
+
+export default ScreenCountdown;

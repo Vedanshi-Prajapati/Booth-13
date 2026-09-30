@@ -8,9 +8,25 @@ export function ScreenCustomize({
   onUpdateCustomization,
   onStepInside
 }) {
-  const [activeCategory, setActiveCategory] = useState('face'); // 'face', 'head', 'outfit', 'prop', 'background'
+  const [activeCategory, setActiveCategory] = useState('face');
 
-  // Helpers to cycle selections with arrows
+  const categories = [
+    { id: 'face', index: '01', label: 'Face / Visage' },
+    { id: 'head', index: '02', label: 'Headwear' },
+    { id: 'outfit', index: '03', label: 'Attire' },
+    { id: 'prop', index: '04', label: 'Keepsake' },
+    { id: 'background', index: '05', label: 'Chamber' },
+  ];
+
+  const handleRandomize = () => {
+    const cats = ['face', 'head', 'outfit', 'prop', 'background'];
+    cats.forEach(cat => {
+      const list = CUSTOMIZER_DATA[cat];
+      const randomItem = list[Math.floor(Math.random() * list.length)];
+      onUpdateCustomization(cat, randomItem.id);
+    });
+  };
+
   const cycleOption = (category, direction = 1) => {
     const list = CUSTOMIZER_DATA[category];
     const currentIndex = list.findIndex(item => item.id === customization[category]);
@@ -18,242 +34,235 @@ export function ScreenCustomize({
     onUpdateCustomization(category, list[nextIndex].id);
   };
 
-  // Randomize all categories for instant surprise
-  const handleRandomize = () => {
-    const categories = ['face', 'head', 'outfit', 'prop', 'background'];
-    categories.forEach(cat => {
-      const list = CUSTOMIZER_DATA[cat];
-      const randomItem = list[Math.floor(Math.random() * list.length)];
-      onUpdateCustomization(cat, randomItem.id);
-    });
-  };
-
-  const categories = [
-    { id: 'face', label: 'Face' },
-    { id: 'head', label: 'Headwear' },
-    { id: 'outfit', label: 'Attire' },
-    { id: 'prop', label: 'Keepsake' },
-    { id: 'background', label: 'Chamber' },
-  ];
+  const currentSelectionLabel = CUSTOMIZER_DATA[activeCategory]?.find(
+    i => i.id === customization[activeCategory]
+  )?.label;
 
   return (
-    <section className="customize-screen" aria-label="Character Customization">
-      {/* Title & Atmosphere */}
-      <div className="customize-header-wrap">
-        <span className="customize-badge">STAGE 01 · PREPARATION</span>
-        <h2 className="customize-header-title">CONJURE YOUR LIKENESS</h2>
-        <p className="customize-header-sub">
-          Every choice is recorded on silver-halide film. Choose what enters the booth.
+    <section className="preparation-editorial-viewport" aria-label="Booth Photographic Preparation">
+      {/* Editorial Header */}
+      <header className="prep-editorial-header">
+        <div className="prep-header-meta">
+          <span className="prep-phase-tag">STAGE 01 OF 04 · DARKROOM PREPARATION</span>
+          <span className="prep-plate-serial">SPECIMEN LOG // 1913</span>
+        </div>
+        <h2 className="prep-headline">PREPARE FOR THE EXPOSURE</h2>
+        <p className="prep-instruction">
+          Every element selected is fixed upon silver-halide emulsion. Configure your subject before entering the chamber.
         </p>
-      </div>
+      </header>
 
-      <div className="customize-body">
-        {/* Left Side: Dynamic Character Portrait with Real-Time Layers */}
-        <div className="portrait-preview-container">
-          <div className="portrait-frame">
-            {/* Left / Right Quick Cycle Buttons */}
-            <button
-              type="button"
-              className="portrait-nav-arrow left"
-              onClick={() => cycleOption(activeCategory, -1)}
-              aria-label={`Previous ${activeCategory}`}
-              title={`Previous ${activeCategory}`}
-            >
-              <CustomizerIcon name="arrow_back" size={18} />
-            </button>
+      <div className="prep-workspace-grid">
+        {/* Left Column: Live Photographic Print Preview (The Hero) */}
+        <div className="prep-preview-column">
+          <figure className="prep-photographic-mount">
+            <div className="mount-meta-top">
+              <span className="mount-tag">TEST PRINT // SILVER-HALIDE CONTACT</span>
+              <span className="mount-status">EMULSION READY</span>
+            </div>
 
-            {/* The Live Layered Composite */}
-            <CharacterComposite
-              customization={customization}
-              className="preview-composite-target"
-            />
+            <div className="mount-viewport">
+              <button
+                type="button"
+                className="mount-nav-btn prev"
+                onClick={() => cycleOption(activeCategory, -1)}
+                aria-label={`Previous ${activeCategory}`}
+                title="Cycle previous"
+              >
+                <CustomizerIcon name="arrow_back" size={16} />
+              </button>
 
-            <button
-              type="button"
-              className="portrait-nav-arrow right"
-              onClick={() => cycleOption(activeCategory, 1)}
-              aria-label={`Next ${activeCategory}`}
-              title={`Next ${activeCategory}`}
-            >
-              <div style={{ transform: 'rotate(180deg)' }}>
-                <CustomizerIcon name="arrow_back" size={18} />
-              </div>
-            </button>
-          </div>
+              <CharacterComposite
+                customization={customization}
+                className="mount-composite-target"
+              />
 
-          {/* Quick Randomize & Status Footer */}
-          <div className="portrait-meta-bar">
-            <button
-              type="button"
-              className="btn-randomize"
-              onClick={handleRandomize}
-              title="Randomize Appearance"
-            >
-              <CustomizerIcon name="dice" size={15} />
-              <span>RANDOMIZE</span>
-            </button>
+              <button
+                type="button"
+                className="mount-nav-btn next"
+                onClick={() => cycleOption(activeCategory, 1)}
+                aria-label={`Next ${activeCategory}`}
+                title="Cycle next"
+              >
+                <div style={{ transform: 'rotate(180deg)' }}>
+                  <CustomizerIcon name="arrow_back" size={16} />
+                </div>
+              </button>
+            </div>
 
-            <span className="portrait-selected-name">
-              {CUSTOMIZER_DATA[activeCategory]?.find(i => i.id === customization[activeCategory])?.label}
-            </span>
-          </div>
+            <figcaption className="mount-footer-caption">
+              <span className="mount-active-detail">
+                {activeCategory.toUpperCase()}: <strong>{currentSelectionLabel}</strong>
+              </span>
+              <button
+                type="button"
+                className="btn-randomize-archival"
+                onClick={handleRandomize}
+                title="Randomize Appearance"
+              >
+                <CustomizerIcon name="dice" size={13} />
+                <span>RANDOMIZE SPECIMEN</span>
+              </button>
+            </figcaption>
+          </figure>
         </div>
 
-        {/* Right Side: Category Selection Tabs & Item Grids */}
-        <div className="customizer-options-panel">
-          {/* Category Tabs */}
-          <div className="customizer-tabs" role="tablist" aria-label="Customization Categories">
+        {/* Right Column: Restrained Contact Sheet Specimen Selector */}
+        <div className="prep-contact-sheet-column">
+          {/* Index Tabs */}
+          <nav className="contact-sheet-nav" aria-label="Archival Specimen Categories">
             {categories.map(cat => (
               <button
                 key={cat.id}
                 type="button"
-                role="tab"
-                aria-selected={activeCategory === cat.id}
-                className={`customizer-tab-btn ${activeCategory === cat.id ? 'active' : ''}`}
+                className={`contact-nav-tab ${activeCategory === cat.id ? 'active' : ''}`}
                 onClick={() => setActiveCategory(cat.id)}
               >
-                {cat.label}
+                <span className="tab-idx">{cat.index}</span>
+                <span className="tab-name">{cat.label}</span>
               </button>
             ))}
+          </nav>
+
+          {/* Contact Sheet Specimen Tiles Grid */}
+          <div className="contact-sheet-grid">
+            {activeCategory === 'face' &&
+              CUSTOMIZER_DATA.face.map((item, idx) => {
+                const isSelected = customization.face === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`contact-specimen-tile ${isSelected ? 'selected' : ''}`}
+                    onClick={() => onUpdateCustomization('face', item.id)}
+                  >
+                    <div className="tile-thumb-frame">
+                      <img src={item.image} alt={item.label} className="tile-thumb-image" />
+                    </div>
+                    <div className="tile-specimen-info">
+                      <span className="specimen-id">SPEC. 0{idx + 1}</span>
+                      <span className="specimen-label">{item.label}</span>
+                      <span className="specimen-sub">{item.tag}</span>
+                    </div>
+                  </button>
+                );
+              })}
+
+            {activeCategory === 'head' &&
+              CUSTOMIZER_DATA.head.map((item, idx) => {
+                const isSelected = customization.head === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`contact-specimen-tile ${isSelected ? 'selected' : ''}`}
+                    onClick={() => onUpdateCustomization('head', item.id)}
+                  >
+                    <div className="tile-icon-frame">
+                      <CustomizerIcon
+                        name={item.icon}
+                        size={26}
+                        color={isSelected ? '#c89f5c' : '#ded8c7'}
+                      />
+                    </div>
+                    <div className="tile-specimen-info">
+                      <span className="specimen-id">SPEC. 0{idx + 1}</span>
+                      <span className="specimen-label">{item.label}</span>
+                      <span className="specimen-sub">{item.desc}</span>
+                    </div>
+                  </button>
+                );
+              })}
+
+            {activeCategory === 'outfit' &&
+              CUSTOMIZER_DATA.outfit.map((item, idx) => {
+                const isSelected = customization.outfit === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`contact-specimen-tile ${isSelected ? 'selected' : ''}`}
+                    onClick={() => onUpdateCustomization('outfit', item.id)}
+                  >
+                    <div className="tile-icon-frame">
+                      <CustomizerIcon
+                        name={item.icon}
+                        size={26}
+                        color={isSelected ? '#c89f5c' : '#ded8c7'}
+                      />
+                    </div>
+                    <div className="tile-specimen-info">
+                      <span className="specimen-id">SPEC. 0{idx + 1}</span>
+                      <span className="specimen-label">{item.label}</span>
+                      <span className="specimen-sub">{item.desc}</span>
+                    </div>
+                  </button>
+                );
+              })}
+
+            {activeCategory === 'prop' &&
+              CUSTOMIZER_DATA.prop.map((item, idx) => {
+                const isSelected = customization.prop === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`contact-specimen-tile ${isSelected ? 'selected' : ''}`}
+                    onClick={() => onUpdateCustomization('prop', item.id)}
+                  >
+                    <div className="tile-icon-frame">
+                      <CustomizerIcon
+                        name={item.icon}
+                        size={26}
+                        color={isSelected ? '#c89f5c' : '#ded8c7'}
+                      />
+                    </div>
+                    <div className="tile-specimen-info">
+                      <span className="specimen-id">SPEC. 0{idx + 1}</span>
+                      <span className="specimen-label">{item.label}</span>
+                      <span className="specimen-sub">{item.desc}</span>
+                    </div>
+                  </button>
+                );
+              })}
+
+            {activeCategory === 'background' &&
+              CUSTOMIZER_DATA.background.map((item, idx) => {
+                const isSelected = customization.background === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    className={`contact-specimen-tile ${isSelected ? 'selected' : ''}`}
+                    onClick={() => onUpdateCustomization('background', item.id)}
+                  >
+                    <div className="tile-icon-frame" style={{ backgroundColor: item.color }}>
+                      <CustomizerIcon
+                        name={item.icon}
+                        size={26}
+                        color={isSelected ? '#c89f5c' : '#ded8c7'}
+                      />
+                    </div>
+                    <div className="tile-specimen-info">
+                      <span className="specimen-id">SPEC. 0{idx + 1}</span>
+                      <span className="specimen-label">{item.label}</span>
+                      <span className="specimen-sub">{item.desc}</span>
+                    </div>
+                  </button>
+                );
+              })}
           </div>
 
-          {/* Active Category Options Grid */}
-          <div className="customizer-items-area">
-            {/* 1. FACE OPTIONS */}
-            {activeCategory === 'face' && (
-              <div className="items-grid face-grid">
-                {CUSTOMIZER_DATA.face.map(item => {
-                  const isSelected = customization.face === item.id;
-                  return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      className={`custom-item-card ${isSelected ? 'selected' : ''}`}
-                      onClick={() => onUpdateCustomization('face', item.id)}
-                    >
-                      <div className="item-thumb-box">
-                        <img src={item.image} alt={item.label} className="item-thumb-img" />
-                      </div>
-                      <div className="item-info">
-                        <span className="item-title">{item.label}</span>
-                        <span className="item-tag">{item.tag}</span>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-
-            {/* 2. HEADWEAR OPTIONS (Zero Emojis, Real SVGs) */}
-            {activeCategory === 'head' && (
-              <div className="items-grid">
-                {CUSTOMIZER_DATA.head.map(item => {
-                  const isSelected = customization.head === item.id;
-                  return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      className={`custom-item-card ${isSelected ? 'selected' : ''}`}
-                      onClick={() => onUpdateCustomization('head', item.id)}
-                    >
-                      <div className="item-icon-box">
-                        <CustomizerIcon name={item.icon} size={28} color={isSelected ? '#ffb347' : '#e4d5b7'} />
-                      </div>
-                      <div className="item-info">
-                        <span className="item-title">{item.label}</span>
-                        <span className="item-tag">{item.desc}</span>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-
-            {/* 3. ATTIRE OPTIONS */}
-            {activeCategory === 'outfit' && (
-              <div className="items-grid">
-                {CUSTOMIZER_DATA.outfit.map(item => {
-                  const isSelected = customization.outfit === item.id;
-                  return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      className={`custom-item-card ${isSelected ? 'selected' : ''}`}
-                      onClick={() => onUpdateCustomization('outfit', item.id)}
-                    >
-                      <div className="item-icon-box">
-                        <CustomizerIcon name={item.icon} size={28} color={isSelected ? '#ffb347' : '#e4d5b7'} />
-                      </div>
-                      <div className="item-info">
-                        <span className="item-title">{item.label}</span>
-                        <span className="item-tag">{item.desc}</span>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-
-            {/* 4. KEEPSAKE / PROP OPTIONS */}
-            {activeCategory === 'prop' && (
-              <div className="items-grid">
-                {CUSTOMIZER_DATA.prop.map(item => {
-                  const isSelected = customization.prop === item.id;
-                  return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      className={`custom-item-card ${isSelected ? 'selected' : ''}`}
-                      onClick={() => onUpdateCustomization('prop', item.id)}
-                    >
-                      <div className="item-icon-box">
-                        <CustomizerIcon name={item.icon} size={28} color={isSelected ? '#ffb347' : '#e4d5b7'} />
-                      </div>
-                      <div className="item-info">
-                        <span className="item-title">{item.label}</span>
-                        <span className="item-tag">{item.desc}</span>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-
-            {/* 5. CHAMBER / BACKGROUND OPTIONS */}
-            {activeCategory === 'background' && (
-              <div className="items-grid">
-                {CUSTOMIZER_DATA.background.map(item => {
-                  const isSelected = customization.background === item.id;
-                  return (
-                    <button
-                      key={item.id}
-                      type="button"
-                      className={`custom-item-card ${isSelected ? 'selected' : ''}`}
-                      onClick={() => onUpdateCustomization('background', item.id)}
-                    >
-                      <div className="item-icon-box" style={{ background: item.color }}>
-                        <CustomizerIcon name={item.icon} size={28} color={isSelected ? '#ffb347' : '#e4d5b7'} />
-                      </div>
-                      <div className="item-info">
-                        <span className="item-title">{item.label}</span>
-                        <span className="item-tag">{item.desc}</span>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-
-          {/* Action Button */}
-          <div className="customizer-action-bar">
+          {/* Primary Action Button (Prominent & Deliberate) */}
+          <div className="contact-sheet-action">
             <button
               type="button"
-              className="btn-step-inside"
+              className="btn-step-inside-deliberate"
               onClick={onStepInside}
               id="step-inside-btn"
             >
-              STEP INSIDE THE BOOTH →
+              <span>STEP INSIDE THE BOOTH</span>
+              <span className="action-arrow">→</span>
             </button>
           </div>
         </div>

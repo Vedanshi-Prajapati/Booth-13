@@ -1,27 +1,43 @@
-/* BOOTH 13 — Design Tokens & Core Styles */
+/* BOOTH 13 — Art-Directed Analog Horror Design System */
 :root {
-  /* Color Tokens */
-  --color-paper: #F2E8D5;
-  --color-oxblood: #6B1A1F;
-  --color-amber: #FFB347;
-  --color-midnight: #0E1224;
-  --color-ghost-green: #8FD18A;
+  /* Color Palette */
+  --color-charcoal-deep: #0c0d11;
+  --color-charcoal-surface: #14151a;
+  --color-charcoal-lift: #1c1e26;
+  --color-charcoal-border: rgba(240, 236, 225, 0.12);
 
-  /* Typography Tokens */
+  --color-ivory: #f0ece1;
+  --color-ivory-aged: #ded8c7;
+  --color-ivory-muted: #9c9789;
+
+  --color-brass: #c89f5c;
+  --color-brass-dim: #8a6a38;
+  --color-brass-glow: rgba(200, 159, 92, 0.15);
+
+  --color-blood-red: #8b1e22;
+  --color-blood-dark: #4d0f12;
+  --color-blood-accent: #a8242a;
+
+  --color-sepia-dark: #1e1b17;
+  --color-sepia-plate: #151310;
+
+  /* Typography */
+  --font-serif-display: 'Cinzel', serif;
+  --font-editorial: 'Cormorant Garamond', Georgia, serif;
   --font-sign: 'Alfa Slab One', cursive, serif;
-  --font-caption: 'Special Elite', cursive, monospace;
-  --font-ui: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-typewriter: 'Special Elite', monospace;
+  --font-body: 'DM Sans', -apple-system, sans-serif;
+  --font-handwritten: 'Caveat', cursive, Georgia, serif;
 
-  /* Motion Tokens */
+  /* Motion */
   --motion-flash: 120ms;
-  --motion-countdown-tick: 900ms;
-  --motion-strip-print: 2.4s cubic-bezier(0.16, 1, 0.3, 1);
-  --motion-curtain-open: 700ms cubic-bezier(0.25, 1, 0.5, 1);
+  --motion-developing: 2.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-shutter: 400ms cubic-bezier(0.2, 0.8, 0.2, 1);
 
-  /* Texture & Depth Tokens */
-  --shadow-booth: 0 20px 45px rgba(0, 0, 0, 0.65), 0 4px 12px rgba(0, 0, 0, 0.4);
-  --border-strip: 1px solid rgba(14, 18, 36, 0.18);
-  --radius-strip: 2px;
+  /* Borders & Radii */
+  --border-hairline: 1px solid var(--color-charcoal-border);
+  --border-brass: 1px solid rgba(200, 159, 92, 0.35);
+  --radius-none: 0px;
 }
 
 * {
@@ -30,17 +46,31 @@
   padding: 0;
 }
 
-body {
-  font-family: var(--font-ui);
-  background-color: var(--color-midnight);
-  color: var(--color-paper);
+html, body {
+  background-color: var(--color-charcoal-deep);
+  color: var(--color-ivory);
+  font-family: var(--font-body);
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Subtle Film Grain Noise Across Viewport */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(20, 13, 14, 0.25) 0%, rgba(10, 11, 15, 0.8) 100%),
+    repeating-radial-gradient(circle at 20% 30%, rgba(240, 236, 225, 0.012) 0, rgba(240, 236, 225, 0.012) 1px, transparent 1px, transparent 100%);
+  z-index: 1;
+}
+
+::selection {
+  background: var(--color-blood-red);
+  color: var(--color-ivory);
 }
 
 @media (prefers-reduced-motion: reduce) {

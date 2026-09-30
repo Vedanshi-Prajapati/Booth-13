@@ -11,80 +11,88 @@ export function ScreenHeaderNav({
   const isLanding = currentScreen === 'landing';
 
   return (
-    <header className="screen-nav-bar" aria-label="Booth Navigation Controls">
-      {/* Left side: Back Button or Booth Badge */}
-      <div className="nav-left-section">
+    <header className="archival-top-nav" aria-label="Darkroom Navigation Controls">
+      {/* Left: Physical Back Lever / Est. Mark */}
+      <div className="nav-control-left">
         {!isLanding ? (
           <button
             type="button"
-            className="nav-back-button"
+            className="nav-lever-button"
             onClick={onGoBack}
-            title="Return to previous screen"
+            title="Return to previous screen [Esc]"
             aria-label="Back"
             id="nav-back-btn"
           >
-            <CustomizerIcon name="arrow_back" size={16} />
-            <span className="back-text">BACK</span>
+            <CustomizerIcon name="arrow_back" size={14} />
+            <span className="lever-label">BACK</span>
           </button>
         ) : (
-          <div className="nav-booth-emblem" aria-hidden="true">
-            <span className="emblem-dot" />
-            <span className="emblem-text">EST. 1913</span>
+          <div className="nav-provenance-stamp">
+            <span className="provenance-dot" />
+            <span>EST. 1913</span>
           </div>
         )}
       </div>
 
-      {/* Center: Atmospheric Booth Marquee */}
-      <div className="nav-marquee" onClick={() => onSelectScreen('landing')} role="button" tabIndex={0} title="Booth 13 Home">
-        <h1 className="nav-marquee-title">
-          BOOTH <span className="title-number">13</span>
-        </h1>
-        <span className="nav-marquee-subtitle">
-          {currentScreen === 'customize' && 'SELECTION CHAMBER'}
-          {currentScreen === 'countdown' && 'PREPARE FOR FLASH'}
-          {currentScreen === 'developing' && 'DARKROOM BATH'}
-          {currentScreen.startsWith('photo') && 'DEVELOPED STILL'}
-          {currentScreen === 'revelation' && 'THE OCCURRENCE'}
-          {currentScreen === 'strip' && 'MEMORY STRIP'}
+      {/* Center: Monolithic Booth 13 Display */}
+      <div
+        className="nav-center-mast"
+        onClick={() => onSelectScreen('landing')}
+        role="button"
+        tabIndex={0}
+        title="Return to Booth 13 Entrance"
+      >
+        <span className="nav-title-main">
+          BOOTH <span className="nav-title-num">13</span>
+        </span>
+        <span className="nav-screen-indicator">
+          {currentScreen === 'landing' && 'ENTRANCE'}
+          {currentScreen === 'customize' && 'PLATE PREPARATION'}
+          {currentScreen === 'countdown' && 'SHUTTER CHAMBER'}
+          {currentScreen === 'developing' && 'CHEMICAL BATH'}
+          {currentScreen === 'photo1' && 'EXPOSURE 01'}
+          {currentScreen === 'photo2' && 'EXPOSURE 02'}
+          {currentScreen === 'photo3' && 'EXPOSURE 03'}
+          {currentScreen === 'photo4' && 'EXPOSURE 04'}
+          {currentScreen === 'revelation' && 'ANOMALY LOG'}
+          {currentScreen === 'strip' && 'CONTACT PROOF'}
           {currentScreen === 'actions' && 'ARCHIVAL LOG'}
-          {currentScreen === 'overview' && 'ALL CHAMBERS'}
-          {currentScreen === 'landing' && 'FOUR PHOTOS · ONE SOUL'}
+          {currentScreen === 'overview' && 'ALL SPECIMENS'}
         </span>
       </div>
 
-      {/* Right side: Audio Mute & Grid View */}
-      <div className="nav-tools">
+      {/* Right: Camera / Darkroom Hardware Switches */}
+      <div className="nav-control-right">
         <button
           type="button"
-          className={`nav-icon-btn ${!isMuted ? 'sound-active' : ''}`}
+          className={`nav-hardware-switch ${!isMuted ? 'active' : ''}`}
           onClick={onToggleSound}
-          title={isMuted ? 'Sound Off (Press M to enable)' : 'Sound Active (Press M to mute)'}
+          title={isMuted ? 'Sound Off [M to activate]' : 'Sound Active [M to mute]'}
           aria-label={isMuted ? 'Unmute Sound' : 'Mute Sound'}
           id="toggle-sound-btn"
         >
           <CustomizerIcon
             name={isMuted ? 'sound_off' : 'sound_on'}
-            size={18}
-            color={isMuted ? '#8a91a3' : '#ffb347'}
+            size={15}
+            color={isMuted ? '#8a8880' : '#c89f5c'}
           />
-          {!isMuted && (
-            <span className="sound-waves-indicator" aria-hidden="true">
-              <span className="wave-bar w1" />
-              <span className="wave-bar w2" />
-              <span className="wave-bar w3" />
-            </span>
-          )}
+          <span className="switch-text">{isMuted ? 'MUTED' : 'AUDIO'}</span>
         </button>
 
         <button
           type="button"
-          className={`nav-icon-btn ${currentScreen === 'overview' ? 'active' : ''}`}
+          className={`nav-hardware-switch ${currentScreen === 'overview' ? 'active' : ''}`}
           onClick={() => onSelectScreen(currentScreen === 'overview' ? 'landing' : 'overview')}
-          title="Toggle Grid Overview"
-          aria-label="Toggle Grid Overview"
+          title="Toggle Specimen Matrix Overview"
+          aria-label="Toggle Specimen Matrix"
           id="toggle-grid-btn"
         >
-          <CustomizerIcon name="grid" size={17} color={currentScreen === 'overview' ? '#ffb347' : '#9da3b4'} />
+          <CustomizerIcon
+            name="grid"
+            size={14}
+            color={currentScreen === 'overview' ? '#c89f5c' : '#8a8880'}
+          />
+          <span className="switch-text">MATRIX</span>
         </button>
       </div>
     </header>
