@@ -1,51 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { downloadPhotoStrip } from '../../utils/exportStrip';
 
 export function ScreenActions({ customization, onTakeAnother }) {
   const [toast, setToast] = useState('');
   const [downloading, setDownloading] = useState(false);
 
-  const showToast = React.useCallback((msg) => {
+  const showToast = useCallback((msg) => {
     setToast(msg);
     setTimeout(() => setToast(''), 3000);
   }, []);
 
-  const handleDownload = React.useCallback(async () => {
+  const handleDownload = useCallback(async () => {
     try {
       setDownloading(true);
       await downloadPhotoStrip(customization);
-      showToast('Photo strip archived to device.');
+      showToast('Photo strip saved to device.');
     } catch {
-      showToast('Download interrupted. Please retry.');
+      showToast('Download interrupted.');
     } finally {
       setDownloading(false);
     }
   }, [customization, showToast]);
 
-  const handleShare = React.useCallback(async () => {
+  const handleShare = useCallback(async () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: 'Booth 13 — Archival Evidence',
+          title: 'Booth 13',
           text: 'Four photographs. One of them won\'t include you.',
           url: window.location.href,
         });
-        showToast('Evidence shared successfully.');
-      } catch {
-        // User cancelled
-      }
+        showToast('Shared.');
+      } catch {}
     } else {
       try {
         await navigator.clipboard.writeText(window.location.href);
-        showToast('Archival URL copied to clipboard.');
+        showToast('URL copied to clipboard.');
       } catch {
-        showToast('Clipboard copy failed.');
+        showToast('Copy failed.');
       }
     }
   }, [showToast]);
 
   // Keyboard shortcuts
-  React.useEffect(() => {
+  useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'd' || e.key === 'D') {
         handleDownload();
@@ -60,57 +58,46 @@ export function ScreenActions({ customization, onTakeAnother }) {
   }, [handleDownload, handleShare, onTakeAnother]);
 
   return (
-    <section className="actions-editorial-viewport" aria-label="Archival Evidence Log">
-      {toast && <div className="archival-toast-pill" role="status">{toast}</div>}
+    <section className="conclusion-viewport" aria-label="Archive Conclusion">
+      {toast && <div className="quiet-toast" role="status">{toast}</div>}
 
-      <div className="actions-editorial-card">
-        <header className="actions-card-header">
-          <div className="actions-badge">CASE FILE // BOOTH-13</div>
-          <h2 className="actions-headline">RECORD PERMANENTLY LOGGED</h2>
-          <p className="actions-subtext">
+      <div className="conclusion-editorial-layout">
+        <header className="conclusion-header">
+          <h1 className="conclusion-title">THE PHOTOGRAPHS REMAIN</h1>
+          <p className="conclusion-quote">
             “Four photographs. None of them belong to you anymore.”
           </p>
         </header>
 
-        <div className="actions-button-stack">
+        <div className="conclusion-action-links">
           <button
             type="button"
-            className="btn-archival-action primary"
+            className="conclusion-link-button primary"
             onClick={handleDownload}
             disabled={downloading}
             id="download-strip-btn"
           >
-            <span className="btn-main-text">
-              {downloading ? 'GENERATING HIGH-RES STRIP...' : 'DOWNLOAD PHOTO STRIP'}
-            </span>
-            <span className="btn-key-badge">[D]</span>
+            {downloading ? 'SAVING STRIP...' : 'DOWNLOAD PHOTO STRIP →'}
           </button>
 
           <button
             type="button"
-            className="btn-archival-action secondary"
+            className="conclusion-link-button secondary"
             onClick={handleShare}
             id="share-strip-btn"
           >
-            <span className="btn-main-text">SHARE EVIDENCE RECORD</span>
-            <span className="btn-key-badge">[S]</span>
+            SHARE ARCHIVE
           </button>
 
           <button
             type="button"
-            className="btn-archival-action tertiary"
+            className="conclusion-link-button secondary"
             onClick={onTakeAnother}
             id="take-another-btn"
           >
-            <span className="btn-main-text">RE-ENTER BOOTH 13</span>
-            <span className="btn-key-badge">[T]</span>
+            ENTER THE BOOTH AGAIN
           </button>
         </div>
-
-        <footer className="actions-card-footer">
-          <span className="footer-specimen-id">ARCHIVE REF: 0013 · SILVER-HALIDE</span>
-          <span className="footer-warning">NO OCCUPANT MAY ENTER TWICE UNHARMED</span>
-        </footer>
       </div>
     </section>
   );

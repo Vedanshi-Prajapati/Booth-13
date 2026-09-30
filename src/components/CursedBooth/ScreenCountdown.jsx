@@ -2,126 +2,77 @@ import React, { useState, useEffect } from 'react';
 import { soundEngine } from '../../utils/audio';
 
 export function ScreenCountdown({ onComplete }) {
-  const [phase, setPhase] = useState('ARM'); // 'ARM' (3), 'SEEK' (2), 'LOCK' (1), 'SHUTTER', 'FLASH', 'DONE'
-  const [seconds, setSeconds] = useState(3);
-  const showFlash = phase === 'FLASH' || phase === 'DONE';
+  // Sequence: 'STANDBY', '3', '2', '1', 'FLASH', 'DARKNESS', 'DONE'
+  const [step, setStep] = useState('STANDBY');
 
   useEffect(() => {
     let timer;
 
-    if (seconds === 3) {
-      soundEngine.playTick();
+    if (step === 'STANDBY') {
       timer = setTimeout(() => {
-        setSeconds(2);
-        setPhase('SEEK');
+        soundEngine.playTick();
+        setStep('3');
+      }, 700);
+    } else if (step === '3') {
+      timer = setTimeout(() => {
+        soundEngine.playTick();
+        setStep('2');
       }, 900);
-    } else if (seconds === 2) {
-      soundEngine.playTick();
+    } else if (step === '2') {
       timer = setTimeout(() => {
-        setSeconds(1);
-        setPhase('LOCK');
+        soundEngine.playTick();
+        setStep('1');
       }, 900);
-    } else if (seconds === 1) {
-      soundEngine.playTick();
-      // Final tick stutters per spec
+    } else if (step === '1') {
       timer = setTimeout(() => {
-        soundEngine.playGlitch();
-        setPhase('SHUTTER');
-      }, 550);
+        soundEngine.playFlash();
+        setStep('FLASH');
+      }, 800);
+    } else if (step === 'FLASH') {
+      // Very brief blinding white flash
+      timer = setTimeout(() => {
+        setStep('DARKNESS');
+      }, 200);
+    } else if (step === 'DARKNESS') {
+      // Fraction of a second of pitch darkness
+      timer = setTimeout(() => {
+        setStep('DONE');
+        onComplete();
+      }, 400);
     }
 
     return () => clearTimeout(timer);
-  }, [seconds]);
-
-  useEffect(() => {
-    let shutterTimer;
-    if (phase === 'SHUTTER') {
-      shutterTimer = setTimeout(() => {
-        soundEngine.playFlash();
-        setPhase('FLASH');
-      }, 350);
-    } else if (phase === 'FLASH') {
-      shutterTimer = setTimeout(() => {
-        setPhase('DONE');
-        onComplete();
-      }, 600);
-    }
-    return () => clearTimeout(shutterTimer);
-  }, [phase, onComplete]);
-
-  const getArchivalPrompt = () => {
-    switch (seconds) {
-      case 3:
-        return 'Hold still for the emulsion.';
-      case 2:
-        return 'Keep your gaze fixed forward.';
-      case 1:
-        return phase === 'SHUTTER' ? 'Do not look behind you.' : 'Focusing lens...';
-      default:
-        return '';
-    }
-  };
+  }, [step, onComplete]);
 
   return (
-    <section className="booth-chamber-viewport" aria-label="Inside Photo Booth Shutter Chamber">
-      {/* Retinal Flash Whiteout */}
-      {showFlash && <div className="flash-optical-burn" />}
+    <section className="fullscreen-shutter-chamber" aria-label="Shutter Chamber">
+      {/* Full-viewport booth photograph */}
+      <img
+        src="/assets/booth_interior.jpg"
+        alt="Inside the booth"
+        className={`shutter-hero-background ${step === '1' ? 'shutter-subtle-jitter' : ''}`}
+      />
 
-      <div className="chamber-camera-stage">
-        {/* Large Cinematic Viewport Occupying Majority of Viewport */}
-        <div className="chamber-optics-frame">
-          <img
-            src="/assets/booth_interior.jpg"
-            alt="Inside Booth 13 vintage booth chamber"
-            className={`chamber-lens-image ${phase === 'SHUTTER' ? 'shutter-stutter' : ''}`}
-          />
+      {/* Brief optical flash overlay */}
+      {step === 'FLASH' && <div className="optical-flash-whiteout" />}
 
-          {/* Authentic Camera Viewfinder Overlay */}
-          <div className="camera-viewfinder-overlay" aria-hidden="true">
-            {/* Top Bar: Camera Specs */}
-            <div className="viewfinder-header-meta">
-              <span className="rec-tally">
-                <span className="tally-square" />
-                <span className="tally-label">SHUTTER CHARGED</span>
-              </span>
-              <span className="lens-spec">F/2.8 · 1/60s · 50MM</span>
-              <span className="plate-serial">EXP 01 // 04</span>
-            </div>
+      {/* Complete pitch blackness fraction of a second */}
+      {step === 'DARKNESS' && <div className="pitch-darkness-void" />}
 
-            {/* Lens Framing Crosshairs */}
-            <div className="viewfinder-crosshair center" />
-            <div className="viewfinder-bracket tl" />
-            <div className="viewfinder-bracket tr" />
-            <div className="viewfinder-bracket bl" />
-            <div className="viewfinder-bracket br" />
+      {/* Minimal camera information in corners */}
+      <div className="shutter-corner top-left">BOOTH 13 CAMERA NO. 1</div>
+      <div className="shutter-corner top-right">EXPOSURE 01 / 04</div>
+      <div className="shutter-corner bottom-left">50MM F/2.8</div>
+      <div className="shutter-corner bottom-right">SILVER HALIDE</div>
 
-            {/* Center Countdown / Shutter State */}
-            <div className="viewfinder-shutter-readout">
-              {phase !== 'FLASH' && phase !== 'DONE' && (
-                <div className="shutter-timer-digit" key={seconds}>
-                  {phase === 'SHUTTER' ? '—' : seconds}
-                </div>
-              )}
-
-              {phase === 'FLASH' && (
-                <div className="shutter-flash-burn-text">
-                  EXPOSING
-                </div>
-              )}
-
-              <div className="shutter-whisper-caption">
-                {getArchivalPrompt()}
-              </div>
-            </div>
-
-            {/* Bottom Bar: Mechanical Tape Feed */}
-            <div className="viewfinder-footer-meta">
-              <span>AGFA-GEVAERT 1974 SILVER-HALIDE</span>
-              <span>STANDBY FOR DISPENSE</span>
-            </div>
+      {/* Large central countdown */}
+      {step !== 'DARKNESS' && step !== 'DONE' && (
+        <div className="shutter-center-focus">
+          <div className="shutter-countdown-display">
+            {step}
           </div>
         </div>
-      </div>
+      )}
     </section>
   );
 }

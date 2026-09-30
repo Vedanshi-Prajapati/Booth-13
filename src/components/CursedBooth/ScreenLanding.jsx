@@ -3,17 +3,14 @@ import { soundEngine } from '../../utils/audio';
 
 export function ScreenLanding({ onEnter, isMuted, onToggleSound }) {
   const [coinClicks, setCoinClicks] = useState(0);
-  const [coinInserted, setCoinInserted] = useState(false);
   const [easterEggActive, setEasterEggActive] = useState(false);
 
-  const handleCoinInsert = () => {
+  const handleCoinInsert = (e) => {
+    e.stopPropagation();
     soundEngine.playCoin();
     const nextCount = coinClicks + 1;
     setCoinClicks(nextCount);
-    setCoinInserted(true);
-    setTimeout(() => setCoinInserted(false), 500);
 
-    // Easter egg from SPEC: Click coin slot 13 times
     if (nextCount === 13) {
       setEasterEggActive(true);
       soundEngine.playJumpscare();
@@ -21,7 +18,6 @@ export function ScreenLanding({ onEnter, isMuted, onToggleSound }) {
   };
 
   const handleEnterBooth = () => {
-    // If audio is muted by default, start the atmospheric BGM on enter
     if (isMuted && onToggleSound) {
       onToggleSound();
     }
@@ -30,118 +26,65 @@ export function ScreenLanding({ onEnter, isMuted, onToggleSound }) {
   };
 
   return (
-    <section className="landing-editorial-viewport" aria-label="Booth 13 Entrance">
-      {/* Left Column: Brand & Archival Typography (~45% width) */}
-      <div className="landing-editorial-col">
-        <header className="landing-masthead">
-          <div className="landing-archival-kicker">
-            <span className="kicker-rule" />
-            <span className="kicker-text">ARCHIVAL RECORD · EST. 1913</span>
-          </div>
+    <section className="cinema-landing" aria-label="Booth 13 Entrance">
+      {/* Full-bleed visual hero: The physical abandoned booth */}
+      <div className="landing-photograph-stage">
+        <img
+          src="/assets/booth_exterior.jpg"
+          alt="The Abandoned Booth 13"
+          className="hero-booth-photograph"
+        />
+        <div className="photographic-shadow-veil" />
+      </div>
 
-          <h1 className="landing-hero-title">
-            BOOTH <span className="title-numeral">13</span>
-          </h1>
+      {/* Cinematic Film Title Composition directly within the frame */}
+      <div className="landing-title-composition">
+        <div className="film-prelude">EST. 1913 · ARCHIVAL RECORD</div>
 
-          <div className="landing-hero-subtitle">
-            THE CURSED PHOTO BOOTH
-          </div>
-        </header>
+        <h1 className="film-monument-title">BOOTH 13</h1>
+        
+        <p className="film-subtitle">THE CURSED PHOTO BOOTH</p>
 
-        <div className="landing-copy-block">
-          <p className="landing-editorial-quote">
-            “Four photographs.<br />
-            <span className="quote-emphasis">One of them won’t include you.”</span>
-          </p>
-          <p className="landing-synopsis">
-            A vintage silver-halide booth found abandoned at the pier. Each exposure penetrates
-            deeper into the shadows. Take your seat, insert your coin, and keep your eyes forward.
-          </p>
-        </div>
+        <p className="film-narrative-lead">
+          Four photographs.<br />
+          <em>One of them won’t include you.</em>
+        </p>
 
-        {/* Primary CTA and Analog Coin Mechanism */}
-        <div className="landing-action-row">
+        <div className="film-action-group">
           <button
             type="button"
-            className="btn-enter-editorial"
+            className="btn-film-primary"
             onClick={handleEnterBooth}
             id="enter-booth-btn"
           >
-            <span className="btn-label">ENTER THE BOOTH</span>
-            <span className="btn-key-code">↵ ENTER</span>
+            ENTER THE BOOTH →
           </button>
 
-          {/* Authentic Brass Coin Slot */}
+          {/* Discreet physical coin mechanism integrated into the booth */}
           <button
             type="button"
-            className={`analog-coin-slot ${coinInserted ? 'coin-drop' : ''}`}
+            className="discreet-coin-mechanism"
             onClick={handleCoinInsert}
-            title="Click to drop 13¢ coin"
-            aria-label="Insert 13 cents coin slot"
+            title="Drop 13¢ coin"
+            aria-label="Insert 13 cents coin"
             id="insert-coin-btn"
           >
-            <div className="coin-slot-housing">
-              <span className="coin-chute" />
-            </div>
-            <div className="coin-slot-text">INSERT 13¢</div>
-            {coinClicks > 0 && (
-              <span className="coin-deposited-count">{coinClicks}¢ IN CHUTE</span>
-            )}
-          </button>
-        </div>
-
-        {/* Ambient Darkroom Audio Lever */}
-        <div className="landing-audio-status-row">
-          <button
-            type="button"
-            className={`btn-ambient-sound-lever ${!isMuted ? 'active' : ''}`}
-            onClick={onToggleSound}
-            title={isMuted ? "Activate atmospheric darkroom audio [M]" : "Mute audio [M]"}
-            aria-label={isMuted ? "Activate atmospheric darkroom audio" : "Mute audio"}
-          >
-            <span className="lever-pulse-dot" />
-            <span className="lever-text">
-              {isMuted
-                ? 'ATMOSPHERIC BGM: OFF · CLICK TO ACTIVATE'
-                : 'ATMOSPHERIC BGM: ACTIVE (1970s ANALOG TAPE & SUB-DRONE)'}
+            <span className="coin-slot-slit" />
+            <span className="coin-slot-label">
+              {coinClicks === 0 ? 'INSERT 13¢' : `${coinClicks}¢ DEPOSITED`}
             </span>
-            <span className="lever-key">[M]</span>
           </button>
         </div>
 
         {easterEggActive && (
-          <div className="easter-egg-archival-note" role="alert">
-            ✦ ANOMALY DETECTED: Extra Strip 0013 Commencing... ✦
+          <div className="film-anomaly-whisper" role="alert">
+            Anomaly awakened. Extra exposure logged in chamber.
           </div>
         )}
 
-        {/* Mandatory Spec Verification: 100% On-Device */}
-        <footer className="landing-editorial-footer">
-          <div className="footer-spec-badge">
-            <span className="status-dot" />
-            <span>100% ON-DEVICE · NO IMAGE LEAVES YOUR BROWSER · ZERO CLOUD</span>
-          </div>
-          <div className="footer-disclaimer">
-            Silver-halide chemical processing. No refunds. No retakes.
-          </div>
-        </footer>
-      </div>
-
-      {/* Right Column: Hero Photograph of Booth 13 (~55% width) */}
-      <div className="landing-photo-col">
-        <figure className="booth-photographic-plate">
-          <div className="plate-inner-mat">
-            <img
-              src="/assets/booth_exterior.jpg"
-              alt="Booth 13 abandoned vintage photo booth exterior"
-              className="booth-plate-image"
-            />
-          </div>
-          <figcaption className="plate-caption">
-            <span className="plate-id">FIG. 01 — THE BOOTH (ORIGINAL SPECIMEN)</span>
-            <span className="plate-origin">RECOVERED AT DUSK</span>
-          </figcaption>
-        </figure>
+        <div className="film-quiet-assurance">
+          100% on-device · No image leaves your browser
+        </div>
       </div>
     </section>
   );

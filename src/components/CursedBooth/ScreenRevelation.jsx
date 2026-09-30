@@ -1,47 +1,64 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { soundEngine } from '../../utils/audio';
 
 export function ScreenRevelation({ onProceed }) {
+  const [showSecondLine, setShowSecondLine] = useState(false);
+  const [showAction, setShowAction] = useState(false);
+
   useEffect(() => {
-    soundEngine.playJumpscare();
+    // Gentle deep sub-bass resonance rather than a screaming monster
+    soundEngine.setScreen('revelation');
+
+    const timer1 = setTimeout(() => {
+      setShowSecondLine(true);
+    }, 1400);
+
+    const timer2 = setTimeout(() => {
+      setShowAction(true);
+    }, 2800);
+
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
   }, []);
 
   return (
-    <section className="revelation-cinematic-viewport" aria-label="The Horror Climax Revelation">
-      {/* Dominant Photograph Partially Concealed in Deep Darkness */}
-      <div className="revelation-cinema-frame">
+    <section className="reveal-absence-viewport" aria-label="Final Revelation">
+      {/* Full-viewport photograph of the empty booth / absence */}
+      <div className="reveal-photograph-stage">
         <img
-          src="/assets/jumpscare.jpg"
-          alt="Distorted Entity lurking in the booth darkness"
-          className="revelation-entity-plate"
+          src="/assets/photo_04.jpg"
+          alt="The empty chair left behind"
+          className="reveal-absence-photo"
         />
+        <div className="reveal-shadow-gradient" />
+      </div>
 
-        {/* Cinematic Vignette Shadow Shroud */}
-        <div className="revelation-shadow-shroud" />
+      {/* Quiet, devastating sequential typography */}
+      <div className="reveal-text-composition">
+        <p className="reveal-line-prelude">
+          YOU LEFT SOMETHING BEHIND.
+        </p>
 
-        {/* Minimal Stark Editorial Text Overlay */}
-        <div className="revelation-editorial-overlay">
-          <div className="revelation-text-block">
-            <span className="revelation-line-prelude">
-              YOU LEFT SOMETHING BEHIND.
-            </span>
-            <h1 className="revelation-line-monument">
-              YOURSELF.
-            </h1>
-          </div>
+        {showSecondLine && (
+          <h1 className="reveal-line-monument">
+            YOURSELF.
+          </h1>
+        )}
 
-          <div className="revelation-action-block">
+        {showAction && (
+          <div className="reveal-action-fade">
             <button
               type="button"
-              className="btn-view-strip-editorial"
+              className="btn-view-strip-quiet"
               onClick={onProceed}
               id="proceed-strip-btn"
             >
-              <span>VIEW YOUR STRIP</span>
-              <span className="btn-arrow">→</span>
+              VIEW THE STRIP →
             </button>
           </div>
-        </div>
+        )}
       </div>
     </section>
   );

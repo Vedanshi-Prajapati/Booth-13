@@ -11,7 +11,11 @@ export function CharacterComposite({
   const currentFace = CUSTOMIZER_DATA.face.find(f => f.id === customization.face) || CUSTOMIZER_DATA.face[0];
   const bg = customization.background || 'curtains';
 
-  // Determine base photograph according to narrative horror progression
+  // Story progression:
+  // Photo 1: normal portrait
+  // Photo 2: barely perceptible presence in background (photo_02.jpg)
+  // Photo 3: presence much closer, hands gripping shoulders (photo_03.jpg)
+  // Photo 4: subject is gone, empty chair, burning candle (photo_04.jpg)
   let basePhotoSrc = '/assets/photo_01.jpg';
 
   if (hauntStage === 1) {
@@ -33,7 +37,6 @@ export function CharacterComposite({
     }
   }
 
-  // Background atmosphere tint matching chosen chamber
   const getChamberWashClass = () => {
     switch (bg) {
       case 'curtains':
@@ -50,33 +53,16 @@ export function CharacterComposite({
   };
 
   return (
-    <div className={`analog-photographic-composite ${className} ${getChamberWashClass()}`} style={style}>
-      {/* 1. Master Photographic Silver-Halide Base */}
-      <div className="composite-master-layer">
-        <img
-          src={basePhotoSrc}
-          alt={currentFace.label}
-          className="composite-master-img"
-        />
-      </div>
+    <div className={`seamless-photographic-print ${className} ${getChamberWashClass()}`} style={style}>
+      {/* 1. Core Silver-Halide Photographic Plate */}
+      <img
+        src={basePhotoSrc}
+        alt={currentFace.label}
+        className="photographic-film-image"
+      />
 
-      {/* 2. Atmospheric Chamber Wash (Seamless Color Grade) */}
-      <div className={`composite-chamber-grade ${getChamberWashClass()}`} aria-hidden="true" />
-
-      {/* 3. Stage 4 Vacant Seat Overlay Annotation */}
-      {hauntStage === 3 && (
-        <div className="composite-chalk-ghost-layer" aria-hidden="true">
-          <div className="chalk-silhouette-trace" />
-          <div className="residual-smoke-drift" />
-        </div>
-      )}
-
-      {/* 4. Optical Silver-Halide Darkroom Grain & Vignette */}
-      <div className="composite-darkroom-grain" aria-hidden="true">
-        <div className="optical-vignette" />
-        <div className="silver-grain-texture" />
-        <div className="film-burn-corner" />
-      </div>
+      {/* 2. Subdued Analog Darkroom Grain & Optical Vignette */}
+      <div className="photographic-vignette-grain" aria-hidden="true" />
     </div>
   );
 }

@@ -1,5 +1,4 @@
 import React from 'react';
-import { CustomizerIcon } from './CustomizerIcons';
 
 export function ScreenHeaderNav({
   currentScreen,
@@ -11,88 +10,51 @@ export function ScreenHeaderNav({
   const isLanding = currentScreen === 'landing';
 
   return (
-    <header className="archival-top-nav" aria-label="Darkroom Navigation Controls">
-      {/* Left: Physical Back Lever / Est. Mark */}
-      <div className="nav-control-left">
-        {!isLanding ? (
+    <header className="quiet-header" aria-label="Booth Navigation">
+      {/* Left: Minimal Back Link */}
+      <div className="header-zone left">
+        {!isLanding && (
           <button
             type="button"
-            className="nav-lever-button"
+            className="quiet-nav-link"
             onClick={onGoBack}
-            title="Return to previous screen [Esc]"
-            aria-label="Back"
             id="nav-back-btn"
           >
-            <CustomizerIcon name="arrow_back" size={14} />
-            <span className="lever-label">BACK</span>
+            ← BACK
           </button>
-        ) : (
-          <div className="nav-provenance-stamp">
-            <span className="provenance-dot" />
-            <span>EST. 1913</span>
-          </div>
         )}
       </div>
 
-      {/* Center: Monolithic Booth 13 Display */}
+      {/* Center: Understated Brand Identity */}
       <div
-        className="nav-center-mast"
+        className="header-zone center brand-clickable"
         onClick={() => onSelectScreen('landing')}
         role="button"
         tabIndex={0}
-        title="Return to Booth 13 Entrance"
       >
-        <span className="nav-title-main">
-          BOOTH <span className="nav-title-num">13</span>
-        </span>
-        <span className="nav-screen-indicator">
-          {currentScreen === 'landing' && 'ENTRANCE'}
-          {currentScreen === 'customize' && 'PLATE PREPARATION'}
-          {currentScreen === 'countdown' && 'SHUTTER CHAMBER'}
-          {currentScreen === 'developing' && 'CHEMICAL BATH'}
-          {currentScreen === 'photo1' && 'EXPOSURE 01'}
-          {currentScreen === 'photo2' && 'EXPOSURE 02'}
-          {currentScreen === 'photo3' && 'EXPOSURE 03'}
-          {currentScreen === 'photo4' && 'EXPOSURE 04'}
-          {currentScreen === 'revelation' && 'ANOMALY LOG'}
-          {currentScreen === 'strip' && 'CONTACT PROOF'}
-          {currentScreen === 'actions' && 'ARCHIVAL LOG'}
-          {currentScreen === 'overview' && 'ALL SPECIMENS'}
-        </span>
+        <span className="brand-title">BOOTH 13</span>
+        <span className="brand-subtitle">PHOTO BOOTH / ARCHIVE</span>
       </div>
 
-      {/* Right: Camera / Darkroom Hardware Switches */}
-      <div className="nav-control-right">
+      {/* Right: Minimal Understated Controls */}
+      <div className="header-zone right">
         <button
           type="button"
-          className={`nav-hardware-switch ${!isMuted ? 'active' : ''}`}
+          className={`quiet-nav-link ${!isMuted ? 'active-audio' : ''}`}
           onClick={onToggleSound}
-          title={isMuted ? 'Sound Off [M to activate]' : 'Sound Active [M to mute]'}
-          aria-label={isMuted ? 'Unmute Sound' : 'Mute Sound'}
+          title={isMuted ? 'Enable Sound (M)' : 'Mute Sound (M)'}
           id="toggle-sound-btn"
         >
-          <CustomizerIcon
-            name={isMuted ? 'sound_off' : 'sound_on'}
-            size={15}
-            color={isMuted ? '#8a8880' : '#c89f5c'}
-          />
-          <span className="switch-text">{isMuted ? 'MUTED' : 'AUDIO'}</span>
+          {isMuted ? 'AUDIO OFF' : 'AUDIO ON'}
         </button>
 
         <button
           type="button"
-          className={`nav-hardware-switch ${currentScreen === 'overview' ? 'active' : ''}`}
+          className="quiet-nav-link"
           onClick={() => onSelectScreen(currentScreen === 'overview' ? 'landing' : 'overview')}
-          title="Toggle Specimen Matrix Overview"
-          aria-label="Toggle Specimen Matrix"
           id="toggle-grid-btn"
         >
-          <CustomizerIcon
-            name="grid"
-            size={14}
-            color={currentScreen === 'overview' ? '#c89f5c' : '#8a8880'}
-          />
-          <span className="switch-text">MATRIX</span>
+          ARCHIVE
         </button>
       </div>
     </header>
