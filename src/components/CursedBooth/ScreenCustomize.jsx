@@ -70,7 +70,6 @@ export function ScreenCustomize({
 
   return (
     <section className="catalogue-layout" aria-label="Portrait Preparation">
-      {/* Left 60%: Large, dominant photographic portrait */}
       <div className="catalogue-portrait-hero">
         <div className="portrait-hero-plate">
           <CharacterComposite customization={customization} />
@@ -81,7 +80,6 @@ export function ScreenCustomize({
         </div>
       </div>
 
-      {/* Right 40%: Photographic Index / Contact Sheet Catalogue */}
       <div className="catalogue-index-column">
         <header className="catalogue-header">
           <span className="catalogue-kicker">ARCHIVAL PROOFS</span>
@@ -120,7 +118,6 @@ export function ScreenCustomize({
           })}
         </div>
 
-        {/* Restrained Bottom Controls */}
         <div className="catalogue-action-bar">
           <button
             type="button"

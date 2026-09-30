@@ -42,7 +42,6 @@ export function ScreenActions({ customization, onTakeAnother }) {
     }
   }, [showToast]);
 
-  // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'd' || e.key === 'D') {

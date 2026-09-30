@@ -27,7 +27,6 @@ export function ScreenLanding({ onEnter, isMuted, onToggleSound }) {
 
   return (
     <section className="cinema-landing" aria-label="Booth 13 Entrance">
-      {/* Full-bleed visual hero: The physical abandoned booth */}
       <div className="landing-photograph-stage">
         <img
           src="/assets/booth_exterior.jpg"
@@ -37,7 +36,6 @@ export function ScreenLanding({ onEnter, isMuted, onToggleSound }) {
         <div className="photographic-shadow-veil" />
       </div>
 
-      {/* Cinematic Film Title Composition directly within the frame */}
       <div className="landing-title-composition">
         <div className="film-prelude">EST. 1913 · ARCHIVAL RECORD</div>
 
@@ -60,7 +58,6 @@ export function ScreenLanding({ onEnter, isMuted, onToggleSound }) {
             ENTER THE BOOTH →
           </button>
 
-          {/* Discreet physical coin mechanism integrated into the booth */}
           <button
             type="button"
             className="discreet-coin-mechanism"

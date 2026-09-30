@@ -11,7 +11,6 @@ export function ScreenHeaderNav({
 
   return (
     <header className="quiet-header" aria-label="Booth Navigation">
-      {/* Left: Minimal Back Link */}
       <div className="header-zone left">
         {!isLanding && (
           <button
@@ -25,7 +24,6 @@ export function ScreenHeaderNav({
         )}
       </div>
 
-      {/* Center: Understated Brand Identity */}
       <div
         className="header-zone center brand-clickable"
         onClick={() => onSelectScreen('landing')}
@@ -36,7 +34,6 @@ export function ScreenHeaderNav({
         <span className="brand-subtitle">PHOTO BOOTH / ARCHIVE</span>
       </div>
 
-      {/* Right: Minimal Understated Controls */}
       <div className="header-zone right">
         <button
           type="button"

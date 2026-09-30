@@ -1,6 +1,4 @@
-/* BOOTH 13 — Restrained Photographic Horror Design System */
 :root {
-  /* Restrained Photographic Color Palette */
   --bg-deep: #0c0d10;
   --bg-darkroom: #141519;
   --color-ivory: #f4f1eb;
@@ -10,16 +8,13 @@
   --color-brown-sepia: #211d18;
   --color-brass-muted: #bfa06d;
   
-  /* Single Restrained Accent */
   --color-red: #8c2226;
   --color-red-subtle: rgba(140, 34, 38, 0.2);
 
-  /* Strict Typography Hierarchy: 1 Editorial Serif, 1 Clean Mono/Sans */
   --font-editorial: 'Cormorant Garamond', 'Cinzel', Garamond, Georgia, serif;
   --font-mono: 'Space Mono', 'Special Elite', monospace;
   --font-sans: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
 
-  /* Backward-compatible variable aliases */
   --color-charcoal-deep: var(--bg-deep);
   --color-charcoal-surface: var(--bg-darkroom);
   --color-charcoal-border: var(--color-ivory-faint);
@@ -47,7 +42,6 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Natural photographic grain layer */
 body::before {
   content: "";
   position: fixed;

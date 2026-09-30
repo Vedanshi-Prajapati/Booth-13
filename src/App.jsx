@@ -21,7 +21,6 @@ export function App() {
   const [currentScreen, setCurrentScreen] = useState(getScreenFromHash);
   const [isMuted, setIsMuted] = useState(true);
 
-  // Sync hash changes
   useEffect(() => {
     const onHashChange = () => {
       const screen = window.location.hash.replace('#', '');
@@ -37,12 +36,10 @@ export function App() {
     soundEngine.setScreen(screenId);
   };
 
-  // Sync screen changes to soundEngine reactive BGM
   useEffect(() => {
     soundEngine.setScreen(currentScreen);
   }, [currentScreen]);
 
-  // Back button navigation logic
   const handleGoBack = React.useCallback(() => {
     switch (currentScreen) {
       case 'customize':
@@ -80,7 +77,6 @@ export function App() {
     }
   }, [currentScreen]);
 
-  // Character Customization state
   const [customization, setCustomization] = useState({
     face: 'witch',
     head: 'witch_hat',
@@ -102,7 +98,6 @@ export function App() {
     setIsMuted(muted);
   };
 
-  // Keyboard navigation shortcuts
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'm' || e.key === 'M') {
@@ -115,7 +110,6 @@ export function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [currentScreen, handleGoBack]);
 
-  // Render the active screen
   const renderCurrentScreen = () => {
     switch (currentScreen) {
       case 'landing':
@@ -228,7 +222,6 @@ export function App() {
 
   return (
     <div className="cursed-booth-app">
-      {/* Sleek Header with Back Button and Audio Control (No Pills, No Emojis) */}
       <ScreenHeaderNav
         currentScreen={currentScreen}
         onGoBack={handleGoBack}

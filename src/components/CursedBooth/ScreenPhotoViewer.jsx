@@ -3,14 +3,13 @@ import { PHOTOS_DATA } from '../../data/boothData';
 import { CharacterComposite } from './CharacterComposite';
 
 export function ScreenPhotoViewer({
-  photoIndex, // 0, 1, 2, 3
+  photoIndex,
   onNext,
   onPrev,
   customization
 }) {
   const photo = PHOTOS_DATA[photoIndex];
 
-  // Keyboard navigation: right arrow / space advances, left arrow returns
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowRight' || e.key === ' ') {
@@ -27,13 +26,12 @@ export function ScreenPhotoViewer({
 
   return (
     <section className="exposure-gallery-viewport" aria-label={`Exposure 0${photoIndex + 1}`}>
-      {/* 70–80% viewport height hero photograph — unconstrained by heavy cards */}
       <div
         className="exposure-photo-canvas"
         onClick={onNext}
         role="button"
         tabIndex={0}
-        title="Examine (click or press → to advance)"
+        title="Examine"
       >
         <div className="exposure-print-image">
           <CharacterComposite
@@ -44,13 +42,11 @@ export function ScreenPhotoViewer({
         </div>
       </div>
 
-      {/* Minimal caption beneath */}
       <div className="exposure-meta-line">
         <span className="exposure-number">EXPOSURE 0{photoIndex + 1} / 04</span>
         <span className="exposure-caption">“{photo.caption}”</span>
       </div>
 
-      {/* Quiet restrained navigation — no giant red buttons */}
       <nav className="exposure-nav-bar" aria-label="Photo Navigation">
         {onPrev ? (
           <button

@@ -1,11 +1,9 @@
-// Synthesized atmospheric 1970s analog horror sound engine & procedural BGM using Web Audio API
 class HorrorSoundEngine {
   constructor() {
     this.ctx = null;
-    this.muted = true; // Default muted per browser autoplay policy
+    this.muted = true;
     this.currentScreen = 'landing';
 
-    // BGM node references
     this.bgmMasterGain = null;
     this.droneSub1 = null;
     this.droneSub2 = null;
@@ -51,15 +49,6 @@ class HorrorSoundEngine {
     }
   }
 
-  /* ==========================================================================
-     PROCEDURAL 1970s ANALOG HORROR BGM (Background Music)
-     - Low Sub-Bass Drones (38Hz - 55Hz) with phase detuning
-     - Resonant Filter Sweep simulating darkroom ventilation & transformer hum
-     - Vintage Analog Tape Hiss & Vinyl Noise Floor
-     - Haunting Random Minor Chimes (D minor / A diminished)
-     - Screen-Reactive Tension Modulation
-     ========================================================================== */
-
   startBgm() {
     if (this.muted || !this.ctx || this.isBgmRunning) return;
     this.init();
@@ -68,31 +57,26 @@ class HorrorSoundEngine {
       const now = this.ctx.currentTime;
       this.isBgmRunning = true;
 
-      // 1. Master BGM Gain Node
       this.bgmMasterGain = this.ctx.createGain();
       this.bgmMasterGain.gain.setValueAtTime(0.001, now);
-      // Smooth fade in over 2.5 seconds
       this.bgmMasterGain.gain.exponentialRampToValueAtTime(0.35, now + 2.5);
       this.bgmMasterGain.connect(this.ctx.destination);
 
-      // 2. Resonant Darkroom Lowpass Filter
       this.droneFilter = this.ctx.createBiquadFilter();
       this.droneFilter.type = 'lowpass';
       this.droneFilter.frequency.setValueAtTime(140, now);
       this.droneFilter.Q.setValueAtTime(3.5, now);
       this.droneFilter.connect(this.bgmMasterGain);
 
-      // 3. LFO (Low-Frequency Oscillator) for breathing drone swell (0.12 Hz)
       this.lfoOsc = this.ctx.createOscillator();
       this.lfoGain = this.ctx.createGain();
       this.lfoOsc.type = 'sine';
       this.lfoOsc.frequency.setValueAtTime(0.12, now);
-      this.lfoGain.gain.setValueAtTime(45, now); // Sweeps cutoff between ~95Hz and ~185Hz
+      this.lfoGain.gain.setValueAtTime(45, now);
       this.lfoOsc.connect(this.lfoGain);
       this.lfoGain.connect(this.droneFilter.frequency);
       this.lfoOsc.start(now);
 
-      // 4. Sub-Bass Drone 1 (Deep 38.89 Hz - Low D#1)
       this.droneSub1 = this.ctx.createOscillator();
       const sub1Gain = this.ctx.createGain();
       this.droneSub1.type = 'sawtooth';
@@ -102,7 +86,6 @@ class HorrorSoundEngine {
       sub1Gain.connect(this.droneFilter);
       this.droneSub1.start(now);
 
-      // 5. Sub-Bass Drone 2 (Detuned 43.65 Hz - Low F1) for eerie binaural beating
       this.droneSub2 = this.ctx.createOscillator();
       const sub2Gain = this.ctx.createGain();
       this.droneSub2.type = 'triangle';
@@ -112,7 +95,6 @@ class HorrorSoundEngine {
       sub2Gain.connect(this.droneFilter);
       this.droneSub2.start(now);
 
-      // 6. Mid-range Spectral Humming (110 Hz - A2)
       this.droneMid = this.ctx.createOscillator();
       const midGain = this.ctx.createGain();
       this.droneMid.type = 'sine';
@@ -122,19 +104,12 @@ class HorrorSoundEngine {
       midGain.connect(this.droneFilter);
       this.droneMid.start(now);
 
-      // 7. Analog Tape Hiss & Darkroom Room Tone
       this.startTapeHiss();
-
-      // 8. Start Chime Melody Generator (Eerie Music Box)
       this.scheduleNextChime();
-
-      // 9. Start Distant Heartbeat / Mechanical Winding Pulse
       this.startAmbientPulse();
-
-      // Apply initial screen tension
       this.setScreen(this.currentScreen);
     } catch (err) {
-      console.warn('BGM initialization deferred until user gesture', err);
+      console.warn('BGM deferred', err);
       this.isBgmRunning = false;
     }
   }
@@ -142,7 +117,6 @@ class HorrorSoundEngine {
   startTapeHiss() {
     if (!this.ctx || !this.bgmMasterGain) return;
     try {
-      // 2 seconds looping pink noise buffer
       const bufferSize = this.ctx.sampleRate * 2;
       const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
       const data = buffer.getChannelData(0);
@@ -177,7 +151,6 @@ class HorrorSoundEngine {
   scheduleNextChime() {
     if (this.muted || !this.isBgmRunning || !this.ctx) return;
 
-    // Random delay between 4 to 9 seconds for subtle unpredictable horror
     const delayMs = 4000 + Math.random() * 5000;
     this.chimeTimer = setTimeout(() => {
       this.playEerieChime();
@@ -189,7 +162,6 @@ class HorrorSoundEngine {
     if (this.muted || !this.ctx || !this.bgmMasterGain) return;
     try {
       const now = this.ctx.currentTime;
-      // D minor / A diminished atmospheric scale
       const notes = [146.83, 174.61, 220.00, 246.94, 293.66, 349.23, 440.00, 587.33];
       const freq = notes[Math.floor(Math.random() * notes.length)];
 
@@ -199,7 +171,6 @@ class HorrorSoundEngine {
 
       osc.type = Math.random() > 0.4 ? 'sine' : 'triangle';
       osc.frequency.setValueAtTime(freq, now);
-      // Slight pitch drift simulating warbled magnetic tape
       osc.frequency.linearRampToValueAtTime(freq * (1 + (Math.random() * 0.02 - 0.01)), now + 3.0);
 
       gain.gain.setValueAtTime(0.001, now);
@@ -207,7 +178,6 @@ class HorrorSoundEngine {
       gain.gain.exponentialRampToValueAtTime(0.0001, now + 3.5);
 
       if (panner) {
-        // Random spatial placement in soundstage
         panner.pan.setValueAtTime(Math.random() * 1.6 - 0.8, now);
         osc.connect(gain);
         gain.connect(panner);
@@ -225,7 +195,7 @@ class HorrorSoundEngine {
   startAmbientPulse() {
     if (this.muted || !this.isBgmRunning || !this.ctx) return;
 
-    const pulseInterval = 2800; // ~42 BPM eerie slow pulse
+    const pulseInterval = 2800;
     this.pulseTimer = setInterval(() => {
       if (this.muted || !this.ctx || !this.bgmMasterGain) return;
       try {
@@ -234,7 +204,6 @@ class HorrorSoundEngine {
         const gain = this.ctx.createGain();
 
         osc.type = 'sine';
-        // Sub low thud
         osc.frequency.setValueAtTime(50, now);
         osc.frequency.exponentialRampToValueAtTime(28, now + 0.22);
 
@@ -294,10 +263,6 @@ class HorrorSoundEngine {
     this.bgmMasterGain = null;
   }
 
-  /* ==========================================================================
-     SCREEN REACTIVE TENSION
-     Adjusts the BGM mood and harmonic frequency depending on where the user is
-     ========================================================================== */
   setScreen(screenId) {
     this.currentScreen = screenId;
     if (!this.ctx || !this.droneFilter || !this.bgmMasterGain) return;
@@ -331,19 +296,16 @@ class HorrorSoundEngine {
           break;
 
         case 'photo2':
-          // Tension creeps up
           this.droneFilter.frequency.linearRampToValueAtTime(220, now + 1.0);
           this.bgmMasterGain.gain.linearRampToValueAtTime(0.38, now + 1.0);
           break;
 
         case 'photo3':
-          // Threat is real
           this.droneFilter.frequency.linearRampToValueAtTime(320, now + 1.0);
           this.bgmMasterGain.gain.linearRampToValueAtTime(0.46, now + 1.0);
           break;
 
         case 'photo4':
-          // Vacuum / absence — drop cutoff low and heavy
           this.droneFilter.frequency.linearRampToValueAtTime(90, now + 1.5);
           this.bgmMasterGain.gain.linearRampToValueAtTime(0.48, now + 1.5);
           break;
@@ -355,7 +317,6 @@ class HorrorSoundEngine {
 
         case 'strip':
         case 'actions':
-          // Resolution, dark melancholy
           this.droneFilter.frequency.linearRampToValueAtTime(150, now + 1.5);
           this.bgmMasterGain.gain.linearRampToValueAtTime(0.32, now + 1.5);
           break;
@@ -368,7 +329,6 @@ class HorrorSoundEngine {
     } catch {}
   }
 
-  // Alias for backward compatibility
   startAmbient() {
     this.startBgm();
   }
@@ -376,10 +336,6 @@ class HorrorSoundEngine {
   stopAmbient() {
     this.stopBgm();
   }
-
-  /* ==========================================================================
-     INDIVIDUAL SOUND EFFECTS
-     ========================================================================== */
 
   playTick() {
     if (this.muted || !this.ctx) return;
@@ -403,7 +359,6 @@ class HorrorSoundEngine {
   playFlash() {
     if (this.muted || !this.ctx) return;
     try {
-      // Noise burst + mechanical shutter click
       const bufferSize = this.ctx.sampleRate * 0.3;
       const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
       const output = buffer.getChannelData(0);
@@ -427,7 +382,6 @@ class HorrorSoundEngine {
       gain.connect(this.ctx.destination);
       whiteNoise.start();
 
-      // Shutter click pulse
       const osc = this.ctx.createOscillator();
       const oscGain = this.ctx.createGain();
       osc.type = 'triangle';
@@ -447,7 +401,6 @@ class HorrorSoundEngine {
   playJumpscare() {
     if (this.muted || !this.ctx) return;
     try {
-      // Sudden dissonant screech + heavy sub impact
       const osc1 = this.ctx.createOscillator();
       const osc2 = this.ctx.createOscillator();
       const sub = this.ctx.createOscillator();
@@ -461,7 +414,7 @@ class HorrorSoundEngine {
       osc1.frequency.setValueAtTime(440, now);
       osc1.frequency.exponentialRampToValueAtTime(880, now + 0.3);
 
-      osc2.frequency.setValueAtTime(466, now); // Minor second dissonance
+      osc2.frequency.setValueAtTime(466, now);
       osc2.frequency.exponentialRampToValueAtTime(932, now + 0.3);
 
       sub.frequency.setValueAtTime(90, now);

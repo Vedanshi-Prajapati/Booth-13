@@ -6,7 +6,6 @@ export function ScreenRevelation({ onProceed }) {
   const [showAction, setShowAction] = useState(false);
 
   useEffect(() => {
-    // Gentle deep sub-bass resonance rather than a screaming monster
     soundEngine.setScreen('revelation');
 
     const timer1 = setTimeout(() => {
@@ -25,7 +24,6 @@ export function ScreenRevelation({ onProceed }) {
 
   return (
     <section className="reveal-absence-viewport" aria-label="Final Revelation">
-      {/* Full-viewport photograph of the empty booth / absence */}
       <div className="reveal-photograph-stage">
         <img
           src="/assets/photo_04.jpg"
@@ -35,7 +33,6 @@ export function ScreenRevelation({ onProceed }) {
         <div className="reveal-shadow-gradient" />
       </div>
 
-      {/* Quiet, devastating sequential typography */}
       <div className="reveal-text-composition">
         <p className="reveal-line-prelude">
           YOU LEFT SOMETHING BEHIND.

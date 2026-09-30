@@ -1,6 +1,3 @@
-/**
- * Registry of the 13 Secrets in BOOTH 13
- */
 export const SECRETS_LIST = [
   {
     id: 'poster',

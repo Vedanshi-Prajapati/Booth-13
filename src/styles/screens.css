@@ -1,9 +1,3 @@
-/* ==========================================================================
-   BOOTH 13 — FINAL REBUILD: RESTRAINED PHOTOGRAPHIC HORROR
-   The photographs ARE the experience. The UI almost disappears.
-   ========================================================================== */
-
-/* Overall Application Stage */
 .cursed-booth-app {
   min-height: 100vh;
   display: flex;
@@ -25,9 +19,6 @@
   z-index: 2;
 }
 
-/* --------------------------------------------------------------------------
-   1. HEADER: ALMOST INVISIBLE, NO TOOLBAR, NO CHROME BOXES
-   -------------------------------------------------------------------------- */
 .quiet-header {
   position: fixed;
   top: 0;
@@ -105,9 +96,6 @@
   color: var(--color-brass-muted);
 }
 
-/* --------------------------------------------------------------------------
-   2. LANDING: FULL-VIEWPORT CINEMATIC FILM COMPOSITION
-   -------------------------------------------------------------------------- */
 .cinema-landing {
   position: fixed;
   inset: 0;
@@ -140,7 +128,6 @@
   transform: scale(1.03);
 }
 
-/* Subtle cinematic lighting gradient over the photograph */
 .photographic-shadow-veil {
   position: absolute;
   inset: 0;
@@ -149,7 +136,6 @@
   pointer-events: none;
 }
 
-/* Editorial typography placed directly within the composition */
 .landing-title-composition {
   position: absolute;
   bottom: 12%;
@@ -226,7 +212,6 @@
   transform: translateY(-1px);
 }
 
-/* Discreet coin slot mechanism */
 .discreet-coin-mechanism {
   background: transparent;
   border: 1px solid rgba(244, 241, 235, 0.2);
@@ -270,9 +255,6 @@
   opacity: 0.6;
 }
 
-/* --------------------------------------------------------------------------
-   3. PREPARATION: 60% LARGE PORTRAIT HERO / 40% PHOTOGRAPHIC CATALOGUE
-   -------------------------------------------------------------------------- */
 .catalogue-layout {
   width: 100%;
   display: grid;
@@ -339,7 +321,6 @@
   color: var(--color-ivory);
 }
 
-/* The 4 Large Contact-Sheet Thumbnails */
 .catalogue-proof-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -393,7 +374,6 @@
   filter: contrast(1.15) brightness(1);
 }
 
-/* Subtle warm line / paper mark for selected specimen */
 .proof-active-mark {
   position: absolute;
   bottom: 0;
@@ -471,9 +451,6 @@
   border-color: var(--color-brass-muted);
 }
 
-/* --------------------------------------------------------------------------
-   4. SHUTTER CHAMBER: FULL-VIEWPORT BOOTH PHOTOGRAPH
-   -------------------------------------------------------------------------- */
 .fullscreen-shutter-chamber {
   position: fixed;
   inset: 0;
@@ -525,7 +502,6 @@
   z-index: 950;
 }
 
-/* Small camera information in corners */
 .shutter-corner {
   position: absolute;
   font-family: var(--font-mono);
@@ -541,7 +517,6 @@
 .shutter-corner.bottom-left { bottom: 32px; left: 40px; }
 .shutter-corner.bottom-right { bottom: 32px; right: 40px; }
 
-/* Large central countdown */
 .shutter-center-focus {
   position: absolute;
   inset: 0;
@@ -561,9 +536,6 @@
   text-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
 }
 
-/* --------------------------------------------------------------------------
-   5. DEVELOPING: SILENT LATENT EMULSION EMERGENCE
-   -------------------------------------------------------------------------- */
 .developing-quiet-chamber {
   min-height: calc(85vh - 80px);
   display: flex;
@@ -604,9 +576,6 @@
   color: var(--color-brass-muted);
 }
 
-/* --------------------------------------------------------------------------
-   6. EXPOSURE VIEWER: 70–80% VIEWPORT HEIGHT HERO PHOTOGRAPH
-   -------------------------------------------------------------------------- */
 .exposure-gallery-viewport {
   width: 100%;
   min-height: calc(90vh - 70px);
@@ -639,7 +608,6 @@
   overflow: hidden;
 }
 
-/* Minimal caption beneath */
 .exposure-meta-line {
   display: flex;
   flex-direction: column;
@@ -664,7 +632,6 @@
   color: var(--color-ivory);
 }
 
-/* Quiet restrained navigation */
 .exposure-nav-bar {
   display: flex;
   align-items: center;
@@ -694,9 +661,6 @@
   width: 100px;
 }
 
-/* --------------------------------------------------------------------------
-   7. FINAL REVEAL: QUIET FULL-VIEWPORT HORROR OF ABSENCE
-   -------------------------------------------------------------------------- */
 .reveal-absence-viewport {
   position: fixed;
   inset: 0;
@@ -784,9 +748,6 @@
   color: #0c0d10;
 }
 
-/* --------------------------------------------------------------------------
-   8. CONTACT SHEET: 4 PHYSICAL PRINTS ON DARKROOM TABLE SURFACE
-   -------------------------------------------------------------------------- */
 .contact-workspace-viewport {
   width: 100%;
   display: flex;
@@ -818,7 +779,6 @@
   color: var(--color-ivory);
 }
 
-/* Tabletop Stage with 4 asymmetric prints */
 .tabletop-stage {
   width: 100%;
   max-width: 1100px;
@@ -843,7 +803,6 @@
   transition: transform 0.3s ease;
 }
 
-/* Natural physical rotation and asymmetry */
 .tabletop-print.print-01 { transform: rotate(-1.5deg) translateY(4px); }
 .tabletop-print.print-02 { transform: rotate(1deg) translateY(-6px); }
 .tabletop-print.print-03 { transform: rotate(-0.5deg) translateY(2px); }
@@ -880,9 +839,6 @@
   margin-top: 12px;
 }
 
-/* --------------------------------------------------------------------------
-   9. CONCLUSION / ACTIONS: EDITORIAL ARCHIVE RECORD
-   -------------------------------------------------------------------------- */
 .conclusion-viewport {
   min-height: calc(85vh - 80px);
   display: flex;
@@ -969,9 +925,6 @@
   z-index: 500;
 }
 
-/* --------------------------------------------------------------------------
-   10. ARCHIVE INDEX MATRIX
-   -------------------------------------------------------------------------- */
 .archive-index-viewport {
   width: 100%;
   display: flex;
@@ -1053,9 +1006,6 @@
   color: var(--color-ivory);
 }
 
-/* --------------------------------------------------------------------------
-   11. SEAMLESS PHOTOGRAPHIC COMPOSITE
-   -------------------------------------------------------------------------- */
 .seamless-photographic-print {
   position: relative;
   width: 100%;
@@ -1079,21 +1029,16 @@
   pointer-events: none;
 }
 
-/* Atmospheric chamber tints */
 .seamless-photographic-print.wash-curtains { filter: sepia(0.08) hue-rotate(-10deg); }
 .seamless-photographic-print.wash-graveyard { filter: contrast(1.15) hue-rotate(15deg); }
 .seamless-photographic-print.wash-manor { filter: sepia(0.12); }
 .seamless-photographic-print.wash-forest { filter: hue-rotate(30deg) brightness(0.9); }
 
-/* Animation Utility */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-/* --------------------------------------------------------------------------
-   12. RESPONSIVE COMPOSITION REORGANIZATION
-   -------------------------------------------------------------------------- */
 @media (max-width: 1024px) {
   .quiet-header {
     padding: 0 24px;

@@ -3,11 +3,10 @@ import { PHOTOS_DATA } from '../data/boothData';
 export async function downloadPhotoStrip(customization) {
   const canvas = document.createElement('canvas');
 
-  // Ultra-minimal margins: maximize photo area and eliminate excess border whitespace
   const width = 600;
   const paddingX = 6;
-  const frameWidth = width - paddingX * 2; // 588px
-  const frameHeight = Math.round(frameWidth * 0.85); // 500px
+  const frameWidth = width - paddingX * 2;
+  const frameHeight = Math.round(frameWidth * 0.85);
   const frameGap = 5;
   const topPadding = 6;
 
@@ -16,22 +15,18 @@ export async function downloadPhotoStrip(customization) {
   const footerContentHeight = 88;
   const bottomPadding = 6;
 
-  // Exact height computed to match content precisely: zero trailing whitespace
   const height = topPadding + totalFramesHeight + footerPaddingTop + footerContentHeight + bottomPadding;
   canvas.width = width;
   canvas.height = height;
   const ctx = canvas.getContext('2d');
 
-  // Background aged dark paper
   ctx.fillStyle = '#141210';
   ctx.fillRect(0, 0, width, height);
 
-  // Minimal outer border right along the edge
   ctx.strokeStyle = 'rgba(228, 213, 183, 0.28)';
   ctx.lineWidth = 1.5;
   ctx.strokeRect(2, 2, width - 4, height - 4);
 
-  // Custom face selection
   let photo1 = PHOTOS_DATA[0].image;
   if (customization?.face === 'skull') photo1 = '/assets/face_skull.jpg';
   else if (customization?.face === 'vampire') photo1 = '/assets/face_vampire.jpg';
@@ -57,7 +52,6 @@ export async function downloadPhotoStrip(customization) {
 
   const loadedImages = await Promise.all(imageSrcs.map(loadImage));
 
-  // Helper to draw image covering frame completely (no letterbox bars or negative space)
   const drawImageCover = (img, dx, dy, dWidth, dHeight) => {
     const sWidth = img.naturalWidth || img.width;
     const sHeight = img.naturalHeight || img.height;
@@ -82,15 +76,12 @@ export async function downloadPhotoStrip(customization) {
   loadedImages.forEach((img, i) => {
     const y = topPadding + i * (frameHeight + frameGap);
 
-    // Frame backdrop
     ctx.fillStyle = '#08080a';
     ctx.fillRect(paddingX, y, frameWidth, frameHeight);
 
     if (img) {
-      // Draw image edge-to-edge covering frame completely
       drawImageCover(img, paddingX, y, frameWidth, frameHeight);
 
-      // Custom background atmosphere color wash
       if (customization?.background === 'curtains') {
         ctx.fillStyle = 'rgba(70, 10, 15, 0.22)';
         ctx.fillRect(paddingX, y, frameWidth, frameHeight);
@@ -105,7 +96,6 @@ export async function downloadPhotoStrip(customization) {
         ctx.fillRect(paddingX, y, frameWidth, frameHeight);
       }
 
-      // Vignette effect over photo
       const grad = ctx.createRadialGradient(
         width / 2, y + frameHeight / 2, frameWidth * 0.25,
         width / 2, y + frameHeight / 2, frameWidth * 0.75
@@ -116,13 +106,11 @@ export async function downloadPhotoStrip(customization) {
       ctx.fillRect(paddingX, y, frameWidth, frameHeight);
     }
 
-    // Crisp inner frame line
     ctx.strokeStyle = 'rgba(0, 0, 0, 0.6)';
     ctx.lineWidth = 1;
     ctx.strokeRect(paddingX, y, frameWidth, frameHeight);
   });
 
-  // Footer Branding: snug and compact with minimal vertical margin
   const footerY = topPadding + totalFramesHeight + footerPaddingTop;
 
   ctx.textAlign = 'center';
@@ -140,7 +128,6 @@ export async function downloadPhotoStrip(customization) {
   ctx.font = 'italic 28px "Caveat", cursive, Georgia';
   ctx.fillText('“You brought a friend.”', width / 2, footerY + 76);
 
-  // Trigger download
   const dataUrl = canvas.toDataURL('image/png');
   const link = document.createElement('a');
   link.download = 'booth-13-strip-0013.png';

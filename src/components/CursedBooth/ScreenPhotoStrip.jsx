@@ -9,9 +9,7 @@ export function ScreenPhotoStrip({ customization, onProceed }) {
         <h2 className="contact-workspace-title">FOUR DEVELOPED EXPOSURES</h2>
       </header>
 
-      {/* The 4 Developed Prints physically laid out on the wooden darkroom surface */}
       <div className="tabletop-stage" id="photo-strip-element">
-        {/* Print 01: Normal */}
         <article className="tabletop-print print-01" title="Exposure 01">
           <div className="print-surface-mat">
             <CharacterComposite customization={customization} hauntStage={0} />
@@ -22,7 +20,6 @@ export function ScreenPhotoStrip({ customization, onProceed }) {
           </footer>
         </article>
 
-        {/* Print 02: Faint Shadow */}
         <article className="tabletop-print print-02" title="Exposure 02">
           <div className="print-surface-mat">
             <CharacterComposite customization={customization} showHaunt={true} hauntStage={1} />
@@ -33,7 +30,6 @@ export function ScreenPhotoStrip({ customization, onProceed }) {
           </footer>
         </article>
 
-        {/* Print 03: The Grasp */}
         <article className="tabletop-print print-03" title="Exposure 03">
           <div className="print-surface-mat">
             <CharacterComposite customization={customization} showHaunt={true} hauntStage={2} />
@@ -44,7 +40,6 @@ export function ScreenPhotoStrip({ customization, onProceed }) {
           </footer>
         </article>
 
-        {/* Print 04: The Unsettling Absence */}
         <article className="tabletop-print print-04 unsettling-absence" title="Exposure 04: Subject Absent">
           <div className="print-surface-mat">
             <CharacterComposite customization={customization} hauntStage={3} />
@@ -56,7 +51,6 @@ export function ScreenPhotoStrip({ customization, onProceed }) {
         </article>
       </div>
 
-      {/* Restrained Forward Action */}
       <div className="contact-workspace-action">
         <button
           type="button"

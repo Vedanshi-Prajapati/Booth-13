@@ -5,7 +5,6 @@ export function CustomizerIcon({ name, size = 20, color = 'currentColor', classN
   const stroke = color;
 
   switch (name) {
-    // HEADWEAR ICONS
     case 'witch_hat':
       return (
         <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -43,7 +42,6 @@ export function CustomizerIcon({ name, size = 20, color = 'currentColor', classN
         </svg>
       );
 
-    // OUTFIT ICONS
     case 'robe':
       return (
         <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -82,7 +80,6 @@ export function CustomizerIcon({ name, size = 20, color = 'currentColor', classN
         </svg>
       );
 
-    // PROP ICONS
     case 'candle':
       return (
         <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -125,7 +122,6 @@ export function CustomizerIcon({ name, size = 20, color = 'currentColor', classN
         </svg>
       );
 
-    // BACKGROUND ICONS
     case 'curtains':
       return (
         <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
@@ -164,7 +160,6 @@ export function CustomizerIcon({ name, size = 20, color = 'currentColor', classN
         </svg>
       );
 
-    // GENERAL UTILITIES
     case 'sound_on':
       return (
         <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" className={className}>
