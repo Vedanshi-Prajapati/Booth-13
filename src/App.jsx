@@ -34,7 +34,13 @@ export function App() {
   const handleSelectScreen = (screenId) => {
     setCurrentScreen(screenId);
     window.location.hash = screenId;
+    soundEngine.setScreen(screenId);
   };
+
+  // Sync screen changes to soundEngine reactive BGM
+  useEffect(() => {
+    soundEngine.setScreen(currentScreen);
+  }, [currentScreen]);
 
   // Back button navigation logic
   const handleGoBack = React.useCallback(() => {
@@ -116,6 +122,8 @@ export function App() {
         return (
           <ScreenLanding
             onEnter={() => handleSelectScreen('customize')}
+            isMuted={isMuted}
+            onToggleSound={handleToggleSound}
           />
         );
 

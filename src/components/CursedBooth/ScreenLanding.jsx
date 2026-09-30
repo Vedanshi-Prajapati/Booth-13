@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { soundEngine } from '../../utils/audio';
 
-export function ScreenLanding({ onEnter }) {
+export function ScreenLanding({ onEnter, isMuted, onToggleSound }) {
   const [coinClicks, setCoinClicks] = useState(0);
   const [coinInserted, setCoinInserted] = useState(false);
   const [easterEggActive, setEasterEggActive] = useState(false);
@@ -21,6 +21,10 @@ export function ScreenLanding({ onEnter }) {
   };
 
   const handleEnterBooth = () => {
+    // If audio is muted by default, start the atmospheric BGM on enter
+    if (isMuted && onToggleSound) {
+      onToggleSound();
+    }
     soundEngine.playCurtain();
     onEnter();
   };
@@ -83,6 +87,25 @@ export function ScreenLanding({ onEnter }) {
             {coinClicks > 0 && (
               <span className="coin-deposited-count">{coinClicks}¢ IN CHUTE</span>
             )}
+          </button>
+        </div>
+
+        {/* Ambient Darkroom Audio Lever */}
+        <div className="landing-audio-status-row">
+          <button
+            type="button"
+            className={`btn-ambient-sound-lever ${!isMuted ? 'active' : ''}`}
+            onClick={onToggleSound}
+            title={isMuted ? "Activate atmospheric darkroom audio [M]" : "Mute audio [M]"}
+            aria-label={isMuted ? "Activate atmospheric darkroom audio" : "Mute audio"}
+          >
+            <span className="lever-pulse-dot" />
+            <span className="lever-text">
+              {isMuted
+                ? 'ATMOSPHERIC BGM: OFF · CLICK TO ACTIVATE'
+                : 'ATMOSPHERIC BGM: ACTIVE (1970s ANALOG TAPE & SUB-DRONE)'}
+            </span>
+            <span className="lever-key">[M]</span>
           </button>
         </div>
 
