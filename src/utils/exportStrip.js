@@ -3,18 +3,18 @@ import { PHOTOS_DATA } from '../data/boothData';
 export async function downloadPhotoStrip(customization) {
   const canvas = document.createElement('canvas');
 
-  // Tight layout dimensions: no negative dead space or awkward margins
+  // Ultra-minimal margins: maximize photo area and eliminate excess border whitespace
   const width = 600;
-  const paddingX = 16;
-  const frameWidth = width - paddingX * 2; // 568px
-  const frameHeight = Math.round(frameWidth * 0.85); // 483px (snug photobooth frame)
-  const frameGap = 12;
-  const topPadding = 16;
+  const paddingX = 6;
+  const frameWidth = width - paddingX * 2; // 588px
+  const frameHeight = Math.round(frameWidth * 0.85); // 500px
+  const frameGap = 5;
+  const topPadding = 6;
 
   const totalFramesHeight = 4 * frameHeight + 3 * frameGap;
-  const footerPaddingTop = 14;
-  const footerContentHeight = 100;
-  const bottomPadding = 16;
+  const footerPaddingTop = 8;
+  const footerContentHeight = 88;
+  const bottomPadding = 6;
 
   // Exact height computed to match content precisely: zero trailing whitespace
   const height = topPadding + totalFramesHeight + footerPaddingTop + footerContentHeight + bottomPadding;
@@ -26,10 +26,10 @@ export async function downloadPhotoStrip(customization) {
   ctx.fillStyle = '#141210';
   ctx.fillRect(0, 0, width, height);
 
-  // Subtle outer paper border
+  // Minimal outer border right along the edge
   ctx.strokeStyle = 'rgba(228, 213, 183, 0.28)';
-  ctx.lineWidth = 2;
-  ctx.strokeRect(6, 6, width - 12, height - 12);
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(2, 2, width - 4, height - 4);
 
   // Custom face selection
   let photo1 = PHOTOS_DATA[0].image;
@@ -122,23 +122,23 @@ export async function downloadPhotoStrip(customization) {
     ctx.strokeRect(paddingX, y, frameWidth, frameHeight);
   });
 
-  // Footer Branding: snug and perfectly centered without extra negative space
+  // Footer Branding: snug and compact with minimal vertical margin
   const footerY = topPadding + totalFramesHeight + footerPaddingTop;
 
   ctx.textAlign = 'center';
   ctx.fillStyle = '#ffb347';
-  ctx.font = '24px "Alfa Slab One", cursive, serif';
-  ctx.fillText('BOOTH 13', width / 2, footerY + 24);
+  ctx.font = '22px "Alfa Slab One", cursive, serif';
+  ctx.fillText('BOOTH 13', width / 2, footerY + 22);
 
   ctx.fillStyle = '#a8a095';
-  ctx.font = '13px "Special Elite", monospace';
+  ctx.font = '12px "Special Elite", monospace';
   const today = new Date();
   const dateFormatted = `${today.getDate().toString().padStart(2, '0')} · ${(today.getMonth() + 1).toString().padStart(2, '0')} · ${today.getFullYear()}`;
-  ctx.fillText(`STRIP NO. 0013 · ${dateFormatted}`, width / 2, footerY + 50);
+  ctx.fillText(`STRIP NO. 0013 · ${dateFormatted}`, width / 2, footerY + 44);
 
   ctx.fillStyle = '#cf7980';
-  ctx.font = 'italic 30px "Caveat", cursive, Georgia';
-  ctx.fillText('“You brought a friend.”', width / 2, footerY + 86);
+  ctx.font = 'italic 28px "Caveat", cursive, Georgia';
+  ctx.fillText('“You brought a friend.”', width / 2, footerY + 76);
 
   // Trigger download
   const dataUrl = canvas.toDataURL('image/png');
