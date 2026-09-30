@@ -10,11 +10,11 @@ export function ScreenRevelation({ onProceed }) {
 
     const timer1 = setTimeout(() => {
       setShowSecondLine(true);
-    }, 1400);
+    }, 700);
 
     const timer2 = setTimeout(() => {
       setShowAction(true);
-    }, 2800);
+    }, 1500);
 
     return () => {
       clearTimeout(timer1);

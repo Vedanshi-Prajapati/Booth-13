@@ -710,20 +710,22 @@
 
 .reveal-line-prelude {
   font-family: var(--font-mono);
-  font-size: 13px;
+  font-size: 14px;
   letter-spacing: 4px;
-  color: var(--color-ivory-dim);
-  animation: fadeIn 1s ease-out;
+  color: var(--color-ivory);
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95);
+  animation: fadeIn 0.6s ease-out;
 }
 
 .reveal-line-monument {
   font-family: var(--font-editorial);
-  font-size: clamp(3rem, 7vw, 5.5rem);
-  font-weight: 400;
-  letter-spacing: 10px;
-  color: var(--color-red);
+  font-size: clamp(3.5rem, 8vw, 6.5rem);
+  font-weight: 500;
+  letter-spacing: 12px;
+  color: #cf222e;
   line-height: 1;
-  animation: fadeIn 1.2s ease-out;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.95);
+  animation: fadeIn 0.8s ease-out;
 }
 
 .reveal-action-fade {
@@ -732,8 +734,8 @@
 }
 
 .btn-view-strip-quiet {
-  background: transparent;
-  border: 1px solid var(--color-brass-muted);
+  background: var(--color-red);
+  border: 1px solid rgba(244, 241, 235, 0.3);
   color: var(--color-ivory);
   font-family: var(--font-editorial);
   font-size: 1.05rem;
@@ -744,8 +746,9 @@
 }
 
 .btn-view-strip-quiet:hover {
-  background: var(--color-brass-muted);
-  color: #0c0d10;
+  background: #a3282d;
+  color: #fff;
+  border-color: var(--color-brass-muted);
 }
 
 .contact-workspace-viewport {
@@ -774,7 +777,7 @@
 
 .contact-workspace-title {
   font-family: var(--font-editorial);
-  font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
   letter-spacing: 4px;
   color: var(--color-ivory);
 }
@@ -794,12 +797,13 @@
 }
 
 .tabletop-print {
-  background: #11100e;
-  padding: 8px 8px 12px;
+  background: #f4efe6;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 8px 8px 16px;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.7);
   transition: transform 0.3s ease;
 }
 
@@ -811,7 +815,7 @@
 .tabletop-print:hover {
   transform: translateY(-8px) scale(1.02);
   z-index: 10;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.85);
+  box-shadow: 0 20px 44px rgba(0, 0, 0, 0.85);
 }
 
 .print-surface-mat {
@@ -825,14 +829,16 @@
   display: flex;
   justify-content: space-between;
   font-family: var(--font-mono);
-  font-size: 8.5px;
+  font-size: 9px;
   letter-spacing: 1.5px;
-  color: var(--color-ivory-dim);
+  color: #3b362f;
   padding: 2px 2px 0;
+  font-weight: 500;
 }
 
 .print-edge-inscription .absence-mark {
   color: var(--color-red);
+  font-weight: 700;
 }
 
 .contact-workspace-action {
@@ -864,14 +870,17 @@
 
 .conclusion-title {
   font-family: var(--font-editorial);
-  font-size: clamp(2rem, 3.5vw, 3rem);
-  letter-spacing: 5px;
-  color: var(--color-ivory);
+  font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+  letter-spacing: 6px;
+  color: #f4f1eb;
+  font-weight: 500;
+  line-height: 1.1;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
 }
 
 .conclusion-quote {
   font-family: var(--font-editorial);
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   font-style: italic;
   color: var(--color-brass-muted);
 }
@@ -881,35 +890,43 @@
   flex-direction: column;
   align-items: center;
   gap: 16px;
+  width: 100%;
 }
 
 .conclusion-link-button {
-  background: none;
-  border: none;
   font-family: var(--font-editorial);
-  font-size: 1.15rem;
-  letter-spacing: 2px;
+  font-size: 1.1rem;
+  letter-spacing: 3px;
   cursor: pointer;
-  padding: 8px 16px;
-  transition: color 0.2s ease;
+  transition: all 0.25s ease;
+  user-select: none;
 }
 
 .conclusion-link-button.primary {
-  color: var(--color-ivory);
-  border-bottom: 1px solid var(--color-red);
+  background: var(--color-red);
+  color: #fff;
+  border: 1px solid rgba(244, 241, 235, 0.25);
+  padding: 16px 36px;
+  width: min(380px, 90vw);
 }
 
 .conclusion-link-button.primary:hover {
-  color: var(--color-red);
+  background: #a3282d;
+  border-color: var(--color-brass-muted);
+  transform: translateY(-1px);
 }
 
 .conclusion-link-button.secondary {
-  color: var(--color-ivory-dim);
-  font-size: 1rem;
+  background: transparent;
+  color: var(--color-ivory);
+  border: 1px solid rgba(244, 241, 235, 0.18);
+  padding: 12px 28px;
+  width: min(380px, 90vw);
 }
 
 .conclusion-link-button.secondary:hover {
-  color: var(--color-ivory);
+  border-color: var(--color-brass-muted);
+  background: rgba(244, 241, 235, 0.05);
 }
 
 .quiet-toast {
